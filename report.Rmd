@@ -1,0 +1,87 @@
+---
+title: "Report on Survey among Students of Cognitive Science / Computing"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F)
+```
+
+```{r, echo = F}
+
+library(tidyverse)
+library(scales)
+library(reticulate)
+
+```
+
+```{python}
+# standard imports 
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt
+import seaborn as sns
+# sns.set_style("whitegrid")
+
+# download the answer file from "Google Sheets" as a csv and save on your computer
+filepath = 'data-raw.csv' # change to your specific filepath (be aware of Windows/Linux/Apple conventions)
+
+# Mood & Impressions
+part1_1 = pd.read_csv(filepath, header=0, usecols = [1,2,3], names = ["Studies", "GeneralMood", "Expectations"]) #closed questions
+part1_2 = pd.read_csv(filepath, header=0, usecols = [4]) # open questions
+
+# Visualization of the first block of questions (closed ones)
+mean1_1 = part1_1[["Studies", "GeneralMood", "Expectations"]].mean()
+print("How is the the first online semester holding up in regards to your...\n",mean1_1.round(decimals =2))
+
+# To plot general mood and impressions 
+fig1_1, ax1_1 = plt.subplots()
+ax1_1.set_title('How is the the first online semester holding up in regards to your...')
+part1_1[["Studies", "GeneralMood", "Expectations"]].boxplot(ax = ax1_1)
+plt.xticks(ticks= [1,2,3],labels = ["Studies","General\nMood", "Expectations"],fontsize = "large")
+plt.ylabel("Bad                                                     Well")
+
+plt.show()
+```
+
+
+```{r}
+# read in the data
+d <- read_csv('data-raw.csv')
+# get the relevant part
+d_problems <- d %>% select(`How problematic was the summer term 2020 for you in general?`:`To cope with any arising issues, which of the following services have you used?`)
+# use more tractable col names 
+colnames(d_problems) <- c(
+  "how problematic",
+  "which problems",
+  "psychol. problem?",
+  "psychol. problem worsened?",
+  "personal report",
+  "services used"
+)
+```
+
+# Questions about problems
+
+INSERT TEXT: Motivation behind this question set (copy-paste in part from survey).
+
+## Q4.1: "How problematic was the summer term 2020 for you in general?"
+
+The question asked was "How problematic was the summer term 2020 for you in general?". Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below. 
+
+```{r}
+d_problems %>% 
+  # mutate(`how problematic` = as.character(`how problematic`)) +
+  ggplot(aes(x = `how problematic`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "How problematic was the SS 2020 in general (1 = easy; 10 = hard)?"
+  )
+```
+
+
+
+
