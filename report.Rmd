@@ -45,6 +45,29 @@ plt.show()
 ```
 
 
+
+# Section 5 Social Life/Collaboration
+
+
+Reading in and isolating the specific part
+```{r}
+#filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
+social = read_csv(filepath) %>% select(35:37)
+```
+
+
+
+Plots of the three questions
+```{r}
+ggplot(social)  + geom_bar(aes( stringr::str_wrap(`How often do you arrange meetings with other people for studying?`, 20))) + xlab("How often do you arrange meetings with other people for studying?")
+
+
+ggplot(social)  + geom_bar(aes( stringr::str_wrap(`Do you meet virtually with people for studying?`, 20))) + xlab("Do you meet virtually with people for studying?")
+
+ggplot(social)  + geom_bar(aes( stringr::str_wrap(`Would you wish there would be offer more online social events?`, 20))) + xlab("Would you wish there would be offer more online social events?")
+```
+
+
 ```{r}
 # read in the data
 d <- read_csv('data-raw.csv')
