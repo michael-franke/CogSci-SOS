@@ -15,7 +15,34 @@ library(reticulate)
 
 ```
 
+```{python}
+# standard imports 
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt
+import seaborn as sns
+# sns.set_style("whitegrid")
 
+# download the answer file from "Google Sheets" as a csv and save on your computer
+filepath = 'data-raw.csv' # change to your specific filepath (be aware of Windows/Linux/Apple conventions)
+filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
+
+# Mood & Impressions
+part1_1 = pd.read_csv(filepath, header=0, usecols = [1,2,3], names = ["Studies", "GeneralMood", "Expectations"]) #closed questions
+part1_2 = pd.read_csv(filepath, header=0, usecols = [4]) # open questions
+
+# Visualization of the first block of questions (closed ones)
+mean1_1 = part1_1[["Studies", "GeneralMood", "Expectations"]].mean()
+print("How is the the first online semester holding up in regards to your...\n",mean1_1.round(decimals =2))
+
+# To plot general mood and impressions 
+fig1_1, ax1_1 = plt.subplots()
+ax1_1.set_title('How is the the first online semester holding up in regards to your...')
+part1_1[["Studies", "GeneralMood", "Expectations"]].boxplot(ax = ax1_1)
+plt.xticks(ticks= [1,2,3],labels = ["Studies","General\nMood", "Expectations"],fontsize = "large")
+plt.ylabel("Bad                                                     Well")
+
+plt.show()
 ```
 
 
@@ -25,7 +52,7 @@ library(reticulate)
 In this section, we are asking about how you organize your collaboration with other students. We also ask questions about your personal life. (All optional, of course!)
 
 ```{r}
-filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
+#filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
 social = read_csv(filepath) %>% select(35:37)
 ```
 
