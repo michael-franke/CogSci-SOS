@@ -4,10 +4,10 @@ Data and visualization scripts from a survey among students of Cognitive Science
 
 Current division of labor:
 
-1. general mood: LT
+1. general mood: 
 2. works/doesn’t work: LK
 3. problems: MF
 4. study load/progress: KK
-5. social life/collaboration:
+5. social life/collaboration:LT & SN (did not yet update the html, but .Rmd is roughly done)
 6. study tools/life hacks: AS
 7. final questions:
