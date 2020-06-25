@@ -15,57 +15,62 @@ library(reticulate)
 
 ```
 
-```{python}
-# standard imports 
-import numpy as np
-import pandas as pd 
-import matplotlib.pyplot as plt
-import seaborn as sns
-# sns.set_style("whitegrid")
 
-# download the answer file from "Google Sheets" as a csv and save on your computer
-filepath = 'data-raw.csv' # change to your specific filepath (be aware of Windows/Linux/Apple conventions)
-
-# Mood & Impressions
-part1_1 = pd.read_csv(filepath, header=0, usecols = [1,2,3], names = ["Studies", "GeneralMood", "Expectations"]) #closed questions
-part1_2 = pd.read_csv(filepath, header=0, usecols = [4]) # open questions
-
-# Visualization of the first block of questions (closed ones)
-mean1_1 = part1_1[["Studies", "GeneralMood", "Expectations"]].mean()
-print("How is the the first online semester holding up in regards to your...\n",mean1_1.round(decimals =2))
-
-# To plot general mood and impressions 
-fig1_1, ax1_1 = plt.subplots()
-ax1_1.set_title('How is the the first online semester holding up in regards to your...')
-part1_1[["Studies", "GeneralMood", "Expectations"]].boxplot(ax = ax1_1)
-plt.xticks(ticks= [1,2,3],labels = ["Studies","General\nMood", "Expectations"],fontsize = "large")
-plt.ylabel("Bad                                                     Well")
-
-plt.show()
 ```
 
 
 
 # Section 5 Social Life/Collaboration
 
+In this section, we are asking about how you organize your collaboration with other students. We also ask questions about your personal life. (All optional, of course!)
 
-Reading in and isolating the specific part
 ```{r}
-#filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
+filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
 social = read_csv(filepath) %>% select(35:37)
 ```
 
 
+## Q5.1 "How often do you arrange meetings with other people for studying?"
 
-Plots of the three questions
 ```{r}
-ggplot(social)  + geom_bar(aes( stringr::str_wrap(`How often do you arrange meetings with other people for studying?`, 20))) + xlab("How often do you arrange meetings with other people for studying?")
+ggplot(social)  + 
+  geom_bar(aes( stringr::str_wrap(`How often do you arrange meetings with other people for studying?`, 20))) + 
+  labs(
+    x = "",
+    y = "frequency",
+    title = "How often do you arrange meetings with other people for studying?"
+  )
 
-
-ggplot(social)  + geom_bar(aes( stringr::str_wrap(`Do you meet virtually with people for studying?`, 20))) + xlab("Do you meet virtually with people for studying?")
-
-ggplot(social)  + geom_bar(aes( stringr::str_wrap(`Would you wish there would be offer more online social events?`, 20))) + xlab("Would you wish there would be offer more online social events?")
 ```
+
+## Q5.2 "Do you meet virtually with people for studying?"
+```{r}
+
+
+ggplot(social)  + 
+  geom_bar(aes( stringr::str_wrap(`Do you meet virtually with people for studying?`, 20))) + 
+  labs(
+    x = "",
+    y = "frequency",
+    title = "Do you meet virtually with people for studying?"
+  )
+
+```
+
+## Q5.3 "Would you wish there would be offer more online social events?"
+
+```{r}
+
+ggplot(social)  +
+  geom_bar(aes( stringr::str_wrap(`Would you wish there would be offer more online social events?`, 20))) +
+  labs(
+    x = "",
+    y = "frequency",
+    title = "Would you wish there would be offer more online social events?"
+  )
+```
+
+
 
 
 ```{r}
