@@ -12,10 +12,11 @@ knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F)
 library(tidyverse)
 library(scales)
 library(reticulate)
-
+use_condaenv('survey')
+setwd("C:\\Users\\Sarah\\Documents\\CogSci-SOS")
 ```
 
-```{python}
+```{python, echo=T}
 # standard imports 
 import numpy as np
 import pandas as pd 
@@ -24,8 +25,8 @@ import seaborn as sns
 # sns.set_style("whitegrid")
 
 # download the answer file from "Google Sheets" as a csv and save on your computer
-filepath = 'data-raw.csv' # change to your specific filepath (be aware of Windows/Linux/Apple conventions)
-filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
+filepath = 'C:/Users/Sarah/Documents/CogSci-SOS/data-raw.csv' # change to your specific filepath (be aware of Windows/Linux/Apple conventions)
+#filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
 
 # Mood & Impressions
 part1_1 = pd.read_csv(filepath, header=0, usecols = [1,2,3], names = ["Studies", "GeneralMood", "Expectations"]) #closed questions
@@ -52,7 +53,7 @@ plt.show()
 In this section, we are asking about how you organize your collaboration with other students. We also ask questions about your personal life. (All optional, of course!)
 
 ```{r}
-#filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
+filepath = "C:/Users/Sarah/Documents/CogSci-SOS/data-raw.csv"
 social = read_csv(filepath) %>% select(35:37)
 ```
 
