@@ -1,6 +1,10 @@
 ---
 title: "Report on Survey among Students of Cognitive Science / Computing"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    highlight: tango
 ---
 
 ```{r setup, include=FALSE}
@@ -8,7 +12,6 @@ knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F)
 ```
 
 ```{r, echo = F}
-
 library(tidyverse)
 library(scales)
 library(reticulate)
@@ -16,40 +19,100 @@ library(reticulate)
 # setwd("C:\\Users\\Sarah\\Documents\\CogSci-SOS")
 ```
 
-```{python, echo=T}
-# standard imports 
-import numpy as np
-import pandas as pd 
-import matplotlib.pyplot as plt
-import seaborn as sns
-# sns.set_style("whitegrid")
+# 4. Questions about problems
 
-# download the answer file from "Google Sheets" as a csv and save on your computer
-# filepath = 'C:/Users/Sarah/Documents/CogSci-SOS/data-raw.csv' # change to your specific filepath (be aware of Windows/Linux/Apple conventions)
-#filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
-filepath = "data-raw.csv"
+```{r, echo = F}
+# read in the data
+d <- read_csv('data-raw.csv')
+# get the relevant part
+d_problems <- d %>% select(`How problematic was the summer term 2020 for you in general?`:`To cope with any arising issues, which of the following services have you used?`)
+# use more tractable col names 
+colnames(d_problems) <- c(
+  "how problematic",
+  "which problems",
+  "psychol. problem?",
+  "psychol. problem worsened?",
+  "personal report",
+  "services used"
+)
+```
 
-# Mood & Impressions
-part1_1 = pd.read_csv(filepath, header=0, usecols = [1,2,3], names = ["Studies", "GeneralMood", "Expectations"]) #closed questions
-part1_2 = pd.read_csv(filepath, header=0, usecols = [4]) # open questions
+INSERT TEXT: Motivation behind this question set (copy-paste in part from survey).
 
-# Visualization of the first block of questions (closed ones)
-mean1_1 = part1_1[["Studies", "GeneralMood", "Expectations"]].mean()
-print("How is the the first online semester holding up in regards to your...\n",mean1_1.round(decimals =2))
+## Q4.1: "How problematic was the summer term 2020 for you in general?"
 
-# To plot general mood and impressions 
-fig1_1, ax1_1 = plt.subplots()
-ax1_1.set_title('How is the the first online semester holding up in regards to your...')
-part1_1[["Studies", "GeneralMood", "Expectations"]].boxplot(ax = ax1_1)
-plt.xticks(ticks= [1,2,3],labels = ["Studies","General\nMood", "Expectations"],fontsize = "large")
-plt.ylabel("Bad                                                     Well")
+The question asked was "How problematic was the summer term 2020 for you in general?". Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below. 
 
-plt.show()
+```{r}
+d_problems %>% 
+  # mutate(`how problematic` = as.character(`how problematic`)) +
+  ggplot(aes(x = `how problematic`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "How problematic was the SS 2020 in general (1 = easy; 10 = hard)?"
+  )
 ```
 
 
 
-# Section 5 Social Life/Collaboration
+## Q4.2: "Which of the following issues or problems affected you as a result of the Covid-19 crisis and/or the online semester?"
+
+This question asked for (multiple selection) of pre-given issues which students may have faced. Here's the frequency with which each issue was selected. Note that only 14 participants indicated "no particular issue". 
+
+```{r}
+
+fixed_items_q4.2 <- c("physical health issues", "mental health issues", "financial issues", "social issues", "term abroad cancelled / postponed", "internship (or similar) cancelled / postponed", "could not travel to Germany", "issues with technical equipment (computer, internet, ...)", "issues with access to study material (library, labs)", "no particular issues")
+
+d_4.2 <- d_problems %>% 
+  separate(
+    col = `which problems`,
+    into = str_c(1:8),
+    sep = ";",
+    convert = T
+  ) %>% 
+  select(2:9) %>% 
+  pivot_longer( 
+    cols = 1:8, 
+    names_to = "number", 
+    values_to = "item"
+  ) %>% 
+  count(
+    item
+  ) %>% 
+  filter( ! is.na(item)) %>% 
+  arrange(-n)
+
+d_q4.2_fixed <- d_4.2 %>% filter(item %in% fixed_items_q4.2)
+d_q4.2_other <- d_4.2 %>% filter(! item %in% fixed_items_q4.2)
+
+d_q4.2_fixed %>% 
+  # mutate(`how problematic` = as.character(`how problematic`)) +
+  ggplot(aes(x = fct_reorder(`item`, n), y = `n`)) +
+  geom_col() +
+  coord_flip() +
+  # scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "Which issues did you encounter?"
+  ) +
+  theme(axis.text.y  = element_text(angle=15, vjust=0.5))
+```
+
+The question also allowed for specification of "other issues" unmentioned in our pre-given list. Here are the `r length(as.character(d_q4.2_other$item))` issues mentioned additionally:
+
+```{r}
+# map_chr(d_q4.2_other$item, function(i) i)
+as.character(d_q4.2_other$item)
+```
+
+
+
+
+# 5. Social Life/Collaboration
 
 In this section, we are asking about how you organize your collaboration with other students. We also ask questions about your personal life. (All optional, of course!)
 
@@ -118,27 +181,31 @@ colnames(d_problems) <- c(
 )
 ```
 
-# Questions about problems
 
-INSERT TEXT: Motivation behind this question set (copy-paste in part from survey).
+# Testing out python integration
 
-## Q4.1: "How problematic was the summer term 2020 for you in general?"
-
-The question asked was "How problematic was the summer term 2020 for you in general?". Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below. 
-
-```{r}
-d_problems %>% 
-  # mutate(`how problematic` = as.character(`how problematic`)) +
-  ggplot(aes(x = `how problematic`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "How problematic was the SS 2020 in general (1 = easy; 10 = hard)?"
-  )
+```{python, echo=F}
+# standard imports 
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt
+import seaborn as sns
+# sns.set_style("whitegrid")
+# download the answer file from "Google Sheets" as a csv and save on your computer
+# filepath = 'C:/Users/Sarah/Documents/CogSci-SOS/data-raw.csv' # change to your specific filepath (be aware of Windows/Linux/Apple conventions)
+#filepath = "/home/god/Desktop/XY/uni/SS20/SOS/CogSciSOS.csv"
+filepath = "data-raw.csv"
+# Mood & Impressions
+part1_1 = pd.read_csv(filepath, header=0, usecols = [1,2,3], names = ["Studies", "GeneralMood", "Expectations"]) #closed questions
+part1_2 = pd.read_csv(filepath, header=0, usecols = [4]) # open questions
+# Visualization of the first block of questions (closed ones)
+mean1_1 = part1_1[["Studies", "GeneralMood", "Expectations"]].mean()
+print("How is the the first online semester holding up in regards to your...\n",mean1_1.round(decimals =2))
+# To plot general mood and impressions 
+fig1_1, ax1_1 = plt.subplots()
+ax1_1.set_title('How is the the first online semester holding up in regards to your...')
+part1_1[["Studies", "GeneralMood", "Expectations"]].boxplot(ax = ax1_1)
+plt.xticks(ticks= [1,2,3],labels = ["Studies","General\nMood", "Expectations"],fontsize = "large")
+plt.ylabel("Bad                                                     Well")
+plt.show()
 ```
-
-
-
-
