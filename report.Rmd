@@ -155,6 +155,54 @@ d_q4.5 <- d_problems %>% select(`personal report`) %>%
 cat(paste('1.', d_q4.5 ), sep = '\n')
 ```
 
+## Q4.6 "To cope with any arising issues, which of the following services have you used?"
+
+```{r}
+fixed_items_q4.6 <- c("Advice mentoring team", "Advice Fachschaft", "Advice study coordinator", "Advice dean of studies", "Psychological counseling", "Examination office", "None")
+
+d_4.6 <- d_problems %>% 
+  select(`services used`) %>% 
+  separate(
+    col = `services used`,
+    into = str_c(1:5),
+    sep = ";",
+    convert = T
+  ) %>% 
+  pivot_longer( 
+    cols = everything(),
+    names_to = "number", 
+    values_to = "item"
+  ) %>% 
+  count(
+    item
+  ) %>% 
+  filter( ! is.na(item)) %>% 
+  arrange(-n)
+
+d_q4.6_fixed <- d_4.6%>% filter(item %in% fixed_items_q4.6)
+d_q4.6_other <- d_4.6 %>% filter(! item %in% fixed_items_q4.6)
+
+d_q4.6_fixed %>% 
+  # mutate(`how problematic` = as.character(`how problematic`)) +
+  ggplot(aes(x = fct_reorder(`item`, n), y = `n`)) +
+  geom_col() +
+  coord_flip() +
+  # scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "Which help did you use?"
+  ) +
+  theme(axis.text.y  = element_text(angle=15, vjust=0.5))
+
+```
+
+Here is are the answers given for the open question regarding which other services participants had relied on:
+
+```{r, results = 'asis'}
+cat(paste('1.', as.character(d_q4.6_other$item) ), sep = '\n')
+```
+
 
 # 5. Social Life/Collaboration
 
