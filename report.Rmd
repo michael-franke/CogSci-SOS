@@ -104,9 +104,10 @@ d_q4.2_fixed %>%
 
 The question also allowed for specification of "other issues" unmentioned in our pre-given list. Here are the `r length(as.character(d_q4.2_other$item))` issues mentioned additionally:
 
-```{r}
+```{r, results = 'asis'}
 # map_chr(d_q4.2_other$item, function(i) i)
-as.character(d_q4.2_other$item)
+
+cat(paste('1.', as.character(d_q4.2_other$item) ), sep = '\n')
 ```
 
 ## Q4.3 "Do you suffer from any psychological conditions?"
@@ -126,7 +127,33 @@ d_q4.3 %>%
   )
 ```
 
+## Q4.4 "If you suffer from any psychological conditions, did your situation worsen since March 2020?"
 
+```{r}
+d_q4.4 <- d_problems %>% select(`psychol. problem worsened?`)
+d_q4.4 %>% 
+  count(`psychol. problem worsened?`) %>% 
+  filter(!is.na(`psychol. problem worsened?`)) %>% 
+  ggplot(aes(x = fct_reorder(`psychol. problem worsened?`, n), y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "Psychological conditions?"
+  )
+```
+
+## Q4.5 "If you like, please tell us about any particularly striking problems that you encountered personally. If possible, please mention ways in which similar problems could be preventable or solvable for others in the future."
+
+```{r, results = 'asis'}
+d_q4.5 <- d_problems %>% select(`personal report`) %>% 
+  filter(! is.na(`personal report`)) %>% 
+  pull(`personal report`) %>% 
+  as.character()
+
+cat(paste('1.', d_q4.5 ), sep = '\n')
+```
 
 
 # 5. Social Life/Collaboration
