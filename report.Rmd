@@ -109,6 +109,23 @@ The question also allowed for specification of "other issues" unmentioned in our
 as.character(d_q4.2_other$item)
 ```
 
+## Q4.3 "Do you suffer from any psychological conditions?"
+
+```{r}
+d_q4.3 <- d_problems %>% select(`psychol. problem?`)
+d_q4.3 %>% 
+  count(`psychol. problem?`) %>% 
+  filter(!is.na(`psychol. problem?`)) %>% 
+  ggplot(aes(x = fct_reorder(`psychol. problem?`, n), y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "Psychological conditions?"
+  )
+```
+
 
 
 
