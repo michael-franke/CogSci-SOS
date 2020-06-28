@@ -4,7 +4,7 @@ Data and visualization scripts from a survey among students of Cognitive Science
 
 Current division of labor:
 
-1. general mood: 
+1. general mood: LT
 2. works/doesn’t work: LK
 3. problems: MF
 4. study load/progress: KK
