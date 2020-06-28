@@ -1,6 +1,6 @@
 ---
 title: "Report on Survey among Students of Cognitive Science / Computing"
-output: 
+output:
   html_document:
     toc: true
     toc_depth: 2
@@ -19,10 +19,10 @@ library(reticulate)
  setwd("/home/god/Desktop/XY/uni/SS20/SOS/git/CogSci-SOS")
 ```
 
-# 1. Mood and Impression 
+# 1. Mood and Impression
 
 Compared to the last one, how does your first digital semester work for you so far in respect to studies, general mood and expectations.
-Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below. 
+Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below.
 
 
 ```{r}
@@ -43,7 +43,7 @@ general %>%
     y = "frequency",
     title = "How are your studies going during the digital semester?  (1 = bad , 10 = great)"
   )
-  
+
 
 
 ```
@@ -63,7 +63,7 @@ general %>%
     y = "frequency",
     title = "How is your general mood during the digital semester? (1 = bad , 10 = great)"
   )
-  
+
 
 
 ```
@@ -84,7 +84,7 @@ general %>%
     y = "frequency",
     title = "How is the digital semester regarding your expectations? (1 = worse , 10 = better)"
   )
-  
+
 
 
 ```
@@ -95,14 +95,351 @@ general %>%
 ```{r, results = 'asis'}
 q14 <- general %>% select(4)
 
-q14 <- general %>% select(`If you want to name reasons for the above, please drop a line.`) %>% 
-  filter(! is.na(`If you want to name reasons for the above, please drop a line.`)) %>% 
-  pull(`If you want to name reasons for the above, please drop a line.`) %>% 
+q14 <- general %>% select(`If you want to name reasons for the above, please drop a line.`) %>%
+  filter(! is.na(`If you want to name reasons for the above, please drop a line.`)) %>%
+  pull(`If you want to name reasons for the above, please drop a line.`) %>%
   as.character()
 
 cat(paste('1.', q14 ), sep = '\n')
 ```
 
+
+# 2. What works well? What doesn't?
+
+In this section we were are asking for the students experience with the online semester, in particular with different formats of teaching/learning.
+
+They were asked to indicate how much they agree with the following statements with the ongoing semester in mind on a 10-point Likert scale ranging from 1 (= I do not agree) to 10 (= I agree)
+
+```{r, echo = F}
+# read in the data
+d <- read_csv('data-raw.csv')
+d_lectures <- d %>% select(`Online classes work well for lectures (lecturer presents information)`: `Managing general administration tasks (e.g. examination office) remotely works fine.`)
+# use more tractable col names
+colnames(d_lectures) <- c(
+  "lectures",
+  "tutorials",
+  "Testate",
+  "SmallSeminars",
+  "LargeSeminars",
+  "presentation",
+  "ReadingClub",
+  "StudyProject",
+  "Homework",
+  "Projects",
+  "HiWi",
+  "Extracurricular",
+  "AdminTasks"
+)
+```
+## Q2.1 Different Session Types
+
+What students say how well the online format works for certain session types:
+
+
+```{r}
+d_lectures %>%
+  # mutate(`lectures` = as.character(`lectures`)) +
+  ggplot(aes(x = `lectures`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "The online format works well for LECTURES (1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `tutorials`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "The online format works well for TUTORIALS (1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `Testate`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "The online format works well for TESTATE (1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `SmallSeminars`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "The online format works well for SMALL SEMINARS (<=15 people) \n(1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `LargeSeminars`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "The online format works well for LARGE SEMINARS (>15 people) \n(1 = do not agree; 10 = agree)"
+  )
+
+```
+
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `ReadingClub`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "The online format works well for READING CLUBS (1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `StudyProject`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "The online format works well for STUDY PROJECTS \n(1 = do not agree; 10 = agree)"
+  )
+
+```
+
+
+## Q2.2 Different Tasks
+
+What students say how well the online format works for certain tasks:
+
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `presentation`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "The online format works well for giving or listening to presentation \n(1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `Homework`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "Working on homework exercises online as a group works fine \n(1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `Projects`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "Working together on other projects (presentation, paper,..) online works well \n(1 = do not agree; 10 = agree)"
+  )
+
+```
+## Q2.3 Other Activities
+
+What students say how well the online format works for other things:
+
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `HiWi`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "Working online as a student assistant works fine (1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `Extracurricular`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "Participating in extracurricular activities (e.g. student body, university politics)\n online works fine (1 = do not agree; 10 = agree)"
+  )
+
+```
+```{r}
+d_lectures %>%
+  ggplot(aes(x = `AdminTasks`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "Managing general administration tasks (e.g. examination office) remotely works fine.  \n(1 = do not agree; 10 = agree)"
+  )
+
+```
+## Q2.4 Specifics and Suggestions
+When asked whether they want to add something specific about the parts of online university that work well or not so well or if  they have suggestions on how to improve the shortcomings of specific types of sessions the students answered freely. The number in front of the quotes represent the participant number. The quotes are sorted
+according to their topic. Within the blocks the first part are additions to the question “What works/What doesn’t?”, the latter part are suggestions to improve the shortcomings.
+Hence, when a participant answered both, their number appears two times. Spelling was not corrected.
+When sensible a rough Recap is added to summarise the results, sorted according to the number of students mentioned an issue/suggestion
+
+### Q2.4.1 Lectures
+
+2: Some courses [...] don’t offer tutorial/practice session at all.
+26: the big blue button channel works great for lectures but not really for tutorials.
+27: Tutorials are not always given.
+28: Lectures are missing and the content isn’t well transmitted through online lectures. Currently I’m learning solely by books and the web. I would like to have at least some guidance from our lecturer on where to look for information or which content should be looked at more closely.
+29: It is annoying when video recordings etc. are uploaded unreliable (e.g. one week on monday and the other on thursday), that makes it hard to create oneself a fixed time schedule.
+42: Some classes are not well adapted to total virtual platforms. The classes are basically composed of a almost 2 hours video and 60-80 slides. That’s all. Given classes are online. then the strategy should be a different one. I would rather watch a 20 minutes video explaining straight away what is important and answer some questions in between. and then spend the rest of the time researching for answering some extra question the professor formulates than just passively listening him talk
+72: I don’t think online lectures work well as the uploaded videos often have a very bad quality or are even missing. In addition to that it is also harder to ask the lecturer questions, as they often don’t offer QA sessions.
+74: communication especially regarding the exams, also from WS19/20.
+87: The quality of the lecture strongly depends on the motivation of the lecturer to make the lecture work.
+96: More Live Streams would be appreciated.
+100: If online lectures work is dependent in the lecturer. It can be frustrating, when lectures do not upload their material in time since this can disrupt the study Plan that one has created quite a bit. The quality of the online presentation in most lectures exceeds expectations
+116: Whether online classes (lecturer presents information) work well depends completely on how it is done: Just doing a regular lecture and recording it is not really helpful, but they are exhausting. Doing those live, with us having to attend, is even worse. Really making use of the available digital means is awesome, though; e.g. short pod- and/or screencasts, a well balanced mix of online tutorials and reading assignments, even VIPS can be really great.
+141: I am positively suprised how well the Testate are going.
+42: Trying to improve the actual passive 2 hours video-slide format of the lectures would be a great start.
+60: Eventhough the online format suits the lectures, the quality of the resulting programs varies. E.g. it would be beneficial if lecturers adjusted their style for prerecorded lectures. Since we do not see each other in person, the (in my opinion silly) pressure to avoid just reading off of a script is non-existant. I’d much prefer you reading a script if it meant that the information was conveyed in
+a more concise way. At least one lecturer appears to utilize editing techniques in their prerecorded videos, making cuts. Whether this is to just take a break, edit out mistakes, or to select a better take, I appreciate this. I can’t reasonably expect everybody to learn about video editing, but it can significantly improve the quality of the lectures.
+74: minimum 3 weeks before announcing a exam not just 8 days (Intro to Neuro, WS19/20)
+75: Online classes work perfectly for lectures if they are recorded. It happens that there are a lot of lags to people with bad connection, especially in lectures with lots of people. So being available to watch the lecture later is a must in my opinion
+89: One professor introduced question and answer sessions every 4th week or so which made it possible to ask questions about the lectures we have heard so far. I really liked this idea to balance out the missing interaction we normally have between students and professor (i.e. if the lecture is not held online).
+108: if the lecture isnt live online, I would really recommend theme-structured videos. Makes it easier to listen and structure your study.
+116: PLEASE DON’T try to just cram physical lectures/seminars into a digital format. As stated before, there are great ways to embrace digital formats - which of course have shortcomings of their own - but please understand that it’s a different beast than regular/classical formats and thus have to be implemented differently.
+141: Especially with lectures where a lot a videos are uploaded, I find that the time requirement to work through them is a lot higher than with normal lectures. I feel like when studying from home everything takes longer than it usually does and this is not really considered 144: For lectures: I appreciate the audio files put into the presentations, I would suggest to meet via BBB every two weeks to give room for questions regarding the content (like QQ but more often and periodic)
+#### Recap - Lectures
+Transfer lectures 1-to-1 as online material (e.g. talking while showing slides) alone does not support the student’s learning success (28, 42, 116)
+Offering additional Question and Answer Sessions helps the students to understand the material
+(144, 72, 89)
+Videos and material should always be uploaded at the same time to support the students in structuring their week (29, 72, 100)
+Having shorter videos (20 min) mixed with interactive parts (e.g questions, short independent research tasks, VIPs) would be preferred (42, 116)
+Having live lectures is bad, bad internet connections (either because of number of attendees or technical issues at home) make recordings necessary (116, 75)
+More live streams are appreciated (96)
+Tutorials are sometimes missing or not offered at all (2, 27)
+Spoken text accompanying the slides can be scripted (if it improves content/structure), editing (making breaks, selecting the best take) is highly appreciated (60)
+Structuring the videos according to their theme helps students to listen to them and structure their studies accordingly (108)
+Videos are better than “real” sessions because one can pause and rewind to deepen the understanding (54)
+Following and understanding an online lecture takes longer than the mere video length (141)
+Giving some hints where students can find reliable extra material on specific topics is appreciated (28)
+Quality of the videos is bad (72)
+Quality of most lectures exceed expectations (100)
+Communication in regard to exams (also of last semester) should be improved and exams should
+be announced at least 3 weeks in advance (74)
+Testate work well (141)
+
+### Q2.4.2 Seminars
+26: [...] from my experience most students dont want to turn on their microphone, so no one is speaking except the tutor. people try to explain their question in the chats, which usually leads to misunderstandings.. It’s pretty exhausting.
+61: In Seminars the online format doesn’t really invite discussion that much especially because I for example don’t have a working mic or camera on my laptop so I can’t speak in discussions and will have to use my phone to record myself during presentations.
+88: I feel that when a seminar just consists of a student presentation each week (not even a discussion taking is taking place), I do not learn something. Especially when the lecturer neither provides additional content nor criticism on the presentation.
+89: Seminars are not really what they are supposed to be (at least the one I am taking at the moment) since it is mostly the professor or a student that is giving a presentation talking, but not really an active discussion between students and professor.
+128: In my opinion the most important part of a seminar is the open discussion between participants and lecturers. This is not really possible im the bbb-seminars that i have seen so far.
+129: [...] I participated in a small seminar and as soon as verbal exchange start in a Zoom-session, it starts to not work smoothly. People definitely interact more dynamically in a real world setting + technological issues (that still happen) make progressing at good speeds hard.
+26: make it obligatory to speak up? one probably cant do that.
+54: Sadly not. I find it hard to discuss in a chat as one can not see the faces of the interlocutor
+87: Personal discussions and interactions are really missing, and small group assignments might be nice to compensate this.
+88: Giving students feedback about their planned presentation beforehand and afterwards would be valuable.
+105: Everything with more than 30 students as an online live session (tutorials, seminars,..) get’s a little chaotic usually, maybe have more smaller seminars? or more tutors?
+144: [...] For Seminars: it would be nice to use the techniqual advantages even more - icluding videos, breakout rooms and other to higher the students engagement
+145: Create smaller seminars, splitting them into subgroups. Tutors should talk up more frequently and make sure no question is missed.
+#### Recap - Seminars
+Discussions are exacerbated in online seminars (either because of the setting in general or technical
+issues) (26, 61, 87, 88, 89, 54, 129, 128).
+This is worsen in large seminars, hence, smaller groups are appreciated (145, 105). Alternatively small group assignments could be nice to compensate this (87). Or make it obligatory to speak up in an discussion (26).
+Using more of the technical possibilities (e.g. videos, breakout rooms, other means to engage the students) would be appreciated (144).
+Receiving feedback before and after a planned presentation would be valuable (88)
+
+### Q2.4.3 General Lectures/Seminars
+37: It is incredibly hard to reach some professors, they just do not reply to emails or calls...
+71: Sometimes perhaps better prepare lecturers and tell them what (new) resources they can use.
+88: using the possibilities of the online tools, like little quizzes during a session to make it interactive for the students. [...]
+96: Teach the lecturers a more extensive use of Stud.IP for setting up Lectures/Schedules/Resoruces in an organised way (E.g Courseware). Its all there, it seems like most just don’t know.
+112: Please more interactive use of the courseware (as e.g. Tobias Thelen does);
+125: [...] So, what I want to say is that adding more work load to the course (in the middle of the semester) in times of online university is something that definitely does not work well.
+152: better prepare professors/lecturers for situations like these
+#### Recap - General Lectures/Seminars
+Prepare the teachers to make use of the resources to create interactive and organized material (e.g. Courseware, quizzes) (71, 88, 96, 112, 152).
+It is hard to reach some professors (37).
+Changing the workload during the semester is not appreciated as it deranges the planning (125)
+
+### Q2.4.4 BigBlueBottom and Stud.Ip
+63: The stud.ip courseware (if used well) helps to follow the red thread of a course
+98: BBB has problems in one of my courses, in otheres it works fine
+43: BBB has sometimes problems but zoom always worked also for large groups. So would be nice if BBB could also improve the quality.
+136: Add a function to raise a hand in BBB
+148: We definitely need a better online teaching/learning platform than studIP. It has a lot of limitations that hamper the whole process of effectively providing and presenting study material to the students.
+#### Recap - BBB and Stud.Ip
+BBB occasionally has issues to work reliably (98,43).
+Adding a function to raise a hand in BBB would be appreciated (136).
+If Stud.Ip courseware is used well, it helps the students to follow a course (63).
+There is a need for a better teaching/learning platform than Stud.Ip as it has many limitations (148).
+
+### Q2.4.5 Examination Office
+9: The examination office is particularly slow to respond to emails and other requests like registration of thesis, etc.
+145: Nowadays it is very difficult to reach the examination office.
+149: The Pr¨ufungsamt is doing a great job!
+
+####  Recap - Examination Office
+The examination office is slow to respond or difficult to reach (9,145) and the examination office is doing a great job (149)
+
+### Q2.4.6 Technical Issues
+77: The well working parts depend on a good internet connection;)
+139: In general online lectures should work really well because they are often not that interactive and could easily be recorded but unfortunately in my experience the recordings often lack quality.
+145: [...] Without access to university printers, printing becomes a tour de force.
+152: some professors/lecturers do not have the technical lnow-how to guarantee for example good audio quality
+27: Its difficult doing paper work, without having the possibility to use a printer. (As it is not allowed in the library)
+43: [...] And if every lecturer let’s us download the content since sometimes it’s not possible for me to watch them online because of my Internet connection.
+112: [...] better microphones for the lecturers (quality is often bad)
+
+#### Recap Technical Issues
+The recordings have suboptimal audio quality (152, 112, 139).
+The students internet connection is hindering them to watch the (live) lectures (77,43).
+The missing access to printers is problematic (27,145).
+
+### Q2.4.7 Meta Critique
+31: It is all very relativ.. The lectures work well compared to what? How it was before; then it is bad. How it works compared to other universities or schools: good enough. I think the problem is that this semester still counts as a normal semester (as far as I know), which is highly unfair. I would consider all of the classes much better if it would be a choice to take them.
+113: Yes, I love the fact that evaluations are getting more project-based and getting further away from tests. Tests suck! They are stressful and not that accurately representing ones’ understanding and learning of the topics. I’m so enjoying this online phase.
+38: In general Lecturers / anyone in teaching should be aware of how problematic the situation is and be careful to be *extremely* forgiving with regards to deadlines, examination strategies, etc. There many issues students have to tackle right now which might render them unable to actively take part in studying, which are not at all their fault - help these students to still be able to finish their courses.
+
+### Q2.4.8 Homework/Projects/Presentation/General Study Organization
+40: Probably the biggest problem I have this semester is homework and projects. Working together just works so much better when you sit next to each other and can see what the other person is doing. Screensharing crowds your own screen, pointing at stuff simply does not work. Also I see no alternative for this. Just sucks.
+51: I really like online presentations since one does not have to stand in front of the whole class but rather can sit at home while giving the presentation. That might be more comfortable for shy persons.
+90: Regarding presentations it is much harder to concentrate if you don’t see the presenter and also as a presenter to give a good presentation without being able to read the audience. It can be hard to find study/presentation groups if you take part in a course without knowing anyone and not being able to talk to someone in person.
+100: [..]Another thing that does not work for me online are group presentations. [...]
+147: Organizationally it works really well, but it is really exhausting both on body and mind to have everything going on online.
+144: [...] For homework: be more dynamic and flexible for the amount of homework, instead of having one big performance goal, use a learning goal. Studying by myself makes it easier to learn without a heavy time pressure, but I need more time for solving homeworks and preparing the material from the lectures. It is quite uncomfortable to watch at a screen for more than 6 hours a day
+### Q2.4.9 Social Aspects
+
+121: i cannot collaborate, discuss or group study with fellows. i cannot discuss my research ideas with a process if i happen to pass them by in the corridor or i see their office door open.
+148: Studying is a lot more fun and a lot more productive and creative if you have spontaneous and regular contact to other people. This is a fundamental part of research and studying that is missing totally in an online university.
+#### Recap - Social Aspects
+Studying, discussing, generally research is missing a fundamental part when there is no regular contact with other people (121, 148).
 
 
 # 4. Questions about problems
@@ -112,7 +449,7 @@ cat(paste('1.', q14 ), sep = '\n')
 d <- read_csv('data-raw.csv')
 # get the relevant part
 d_problems <- d %>% select(`How problematic was the summer term 2020 for you in general?`:`To cope with any arising issues, which of the following services have you used?`)
-# use more tractable col names 
+# use more tractable col names
 colnames(d_problems) <- c(
   "how problematic",
   "which problems",
@@ -127,10 +464,10 @@ INSERT TEXT: Motivation behind this question set (copy-paste in part from survey
 
 ## Q4.1: "How problematic was the summer term 2020 for you in general?"
 
-The question asked was "How problematic was the summer term 2020 for you in general?". Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below. 
+The question asked was "How problematic was the summer term 2020 for you in general?". Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below.
 
 ```{r}
-d_problems %>% 
+d_problems %>%
   # mutate(`how problematic` = as.character(`how problematic`)) +
   ggplot(aes(x = `how problematic`)) +
   geom_bar() +
@@ -146,35 +483,35 @@ d_problems %>%
 
 ## Q4.2: "Which of the following issues or problems affected you as a result of the Covid-19 crisis and/or the online semester?"
 
-This question asked for (multiple selection) of pre-given issues which students may have faced. Here's the frequency with which each issue was selected. Note that only 14 participants indicated "no particular issue". 
+This question asked for (multiple selection) of pre-given issues which students may have faced. Here's the frequency with which each issue was selected. Note that only 14 participants indicated "no particular issue".
 
 ```{r}
 
 fixed_items_q4.2 <- c("physical health issues", "mental health issues", "financial issues", "social issues", "term abroad cancelled / postponed", "internship (or similar) cancelled / postponed", "could not travel to Germany", "issues with technical equipment (computer, internet, ...)", "issues with access to study material (library, labs)", "no particular issues")
 
-d_4.2 <- d_problems %>% 
+d_4.2 <- d_problems %>%
   separate(
     col = `which problems`,
     into = str_c(1:8),
     sep = ";",
     convert = T
-  ) %>% 
-  select(2:9) %>% 
-  pivot_longer( 
-    cols = 1:8, 
-    names_to = "number", 
+  ) %>%
+  select(2:9) %>%
+  pivot_longer(
+    cols = 1:8,
+    names_to = "number",
     values_to = "item"
-  ) %>% 
+  ) %>%
   count(
     item
-  ) %>% 
-  filter( ! is.na(item)) %>% 
+  ) %>%
+  filter( ! is.na(item)) %>%
   arrange(-n)
 
 d_q4.2_fixed <- d_4.2 %>% filter(item %in% fixed_items_q4.2)
 d_q4.2_other <- d_4.2 %>% filter(! item %in% fixed_items_q4.2)
 
-d_q4.2_fixed %>% 
+d_q4.2_fixed %>%
   # mutate(`how problematic` = as.character(`how problematic`)) +
   ggplot(aes(x = fct_reorder(`item`, n), y = `n`)) +
   geom_col() +
@@ -200,9 +537,9 @@ cat(paste('1.', as.character(d_q4.2_other$item) ), sep = '\n')
 
 ```{r}
 d_q4.3 <- d_problems %>% select(`psychol. problem?`)
-d_q4.3 %>% 
-  count(`psychol. problem?`) %>% 
-  filter(!is.na(`psychol. problem?`)) %>% 
+d_q4.3 %>%
+  count(`psychol. problem?`) %>%
+  filter(!is.na(`psychol. problem?`)) %>%
   ggplot(aes(x = fct_reorder(`psychol. problem?`, n), y = n)) +
   geom_col() +
   coord_flip() +
@@ -217,9 +554,9 @@ d_q4.3 %>%
 
 ```{r}
 d_q4.4 <- d_problems %>% select(`psychol. problem worsened?`)
-d_q4.4 %>% 
-  count(`psychol. problem worsened?`) %>% 
-  filter(!is.na(`psychol. problem worsened?`)) %>% 
+d_q4.4 %>%
+  count(`psychol. problem worsened?`) %>%
+  filter(!is.na(`psychol. problem worsened?`)) %>%
   ggplot(aes(x = fct_reorder(`psychol. problem worsened?`, n), y = n)) +
   geom_col() +
   coord_flip() +
@@ -233,9 +570,9 @@ d_q4.4 %>%
 ## Q4.5 "If you like, please tell us about any particularly striking problems that you encountered personally. If possible, please mention ways in which similar problems could be preventable or solvable for others in the future."
 
 ```{r, results = 'asis'}
-d_q4.5 <- d_problems %>% select(`personal report`) %>% 
-  filter(! is.na(`personal report`)) %>% 
-  pull(`personal report`) %>% 
+d_q4.5 <- d_problems %>% select(`personal report`) %>%
+  filter(! is.na(`personal report`)) %>%
+  pull(`personal report`) %>%
   as.character()
 
 cat(paste('1.', d_q4.5 ), sep = '\n')
@@ -246,29 +583,29 @@ cat(paste('1.', d_q4.5 ), sep = '\n')
 ```{r}
 fixed_items_q4.6 <- c("Advice mentoring team", "Advice Fachschaft", "Advice study coordinator", "Advice dean of studies", "Psychological counseling", "Examination office", "None")
 
-d_4.6 <- d_problems %>% 
-  select(`services used`) %>% 
+d_4.6 <- d_problems %>%
+  select(`services used`) %>%
   separate(
     col = `services used`,
     into = str_c(1:5),
     sep = ";",
     convert = T
-  ) %>% 
-  pivot_longer( 
+  ) %>%
+  pivot_longer(
     cols = everything(),
-    names_to = "number", 
+    names_to = "number",
     values_to = "item"
-  ) %>% 
+  ) %>%
   count(
     item
-  ) %>% 
-  filter( ! is.na(item)) %>% 
+  ) %>%
+  filter( ! is.na(item)) %>%
   arrange(-n)
 
 d_q4.6_fixed <- d_4.6%>% filter(item %in% fixed_items_q4.6)
 d_q4.6_other <- d_4.6 %>% filter(! item %in% fixed_items_q4.6)
 
-d_q4.6_fixed %>% 
+d_q4.6_fixed %>%
   # mutate(`how problematic` = as.character(`how problematic`)) +
   ggplot(aes(x = fct_reorder(`item`, n), y = `n`)) +
   geom_col() +
@@ -298,7 +635,7 @@ In this section we were trying to obtain information about how "efficient" the o
 ```{r}
 # get the relevant part
 d_studyload <- d %>% select(`How many ECTS points are you aiming to get this semester?`:`If you have no yet completed all of your courses from the winter term, do you already know when and how you will be able to complete these courses?`)
-# use more tractable col names 
+# use more tractable col names
 colnames(d_studyload) <- c(
   "ECTS points",
   "classes dropped",
@@ -316,21 +653,21 @@ colnames(d_studyload) <- c(
 The question asked for pre-given amounts of ECTS points student are aiming to get ranging from "less than 15 ECTS" to "more than 30 ECTS". Here's the frequency with which each amount of ECTS points was selected.
 
 ```{r}
-d_4.1 <- d_studyload %>% 
-  select(1) %>% 
-  pivot_longer( 
-    cols = 1, 
-    names_to = "label", 
+d_4.1 <- d_studyload %>%
+  select(1) %>%
+  pivot_longer(
+    cols = 1,
+    names_to = "label",
     values_to = "item"
-  ) %>% 
+  ) %>%
   count(
     item
-  ) %>% 
+  ) %>%
   # One person selected two answers, "25 ECTS" and "30 ECTS". I chose to not include these answers. NAs are filtered out as well.
-  filter( ! is.na(item) & ! item == "25 ECTS;30 ECTS") 
+  filter( ! is.na(item) & ! item == "25 ECTS;30 ECTS")
 
-d_4.1 %>% 
-  mutate(item = fct_relevel(item, "less than 15 ECTS", "15 ECTS", "20 ECTS", "25 ECTS", "30 ECTS", "more than 30 ECTS")) %>% 
+d_4.1 %>%
+  mutate(item = fct_relevel(item, "less than 15 ECTS", "15 ECTS", "20 ECTS", "25 ECTS", "30 ECTS", "more than 30 ECTS")) %>%
   ggplot(aes(x = item, y = n)) +
   geom_col() +
   coord_flip() +
@@ -338,7 +675,7 @@ d_4.1 %>%
     x = "",
     y = "frequency of selection",
     title = "How many ECTS points?"
-  ) 
+  )
 ```
 
 
@@ -347,20 +684,20 @@ d_4.1 %>%
 The question asked for pre-given amounts of dropped classes ranging from "1" to "4" and also "None" and "All". Here's the frequency with which each amount of dropped classes was selected.
 
 ```{r}
-d_4.2 <- d_studyload %>% 
-  select(2) %>% 
-  pivot_longer( 
-    cols = 1, 
-    names_to = "label", 
+d_4.2 <- d_studyload %>%
+  select(2) %>%
+  pivot_longer(
+    cols = 1,
+    names_to = "label",
     values_to = "item"
-  ) %>% 
+  ) %>%
   count(
     item
-  ) %>% 
-  filter( ! is.na(item)) %>% 
-  arrange(n) 
+  ) %>%
+  filter( ! is.na(item)) %>%
+  arrange(n)
 
-d_4.2 %>% 
+d_4.2 %>%
   ggplot(aes(x = fct_reorder(`item`, n, .desc=TRUE), y = `n`)) +
   geom_col() +
   coord_flip() +
@@ -368,30 +705,30 @@ d_4.2 %>%
     x = "",
     y = "frequency of selection",
     title = "How many dropped classes?"
-  ) 
+  )
 ```
 
 ## Q4.3: "Are you currently following more or less courses than in other semesters?"
 
-The question asked was "Are you currently following more or less courses than in other semesters?". Answers could be given on a 5-point scale ranging from "much less" to "much more". The distribution of answers is shown below. 
+The question asked was "Are you currently following more or less courses than in other semesters?". Answers could be given on a 5-point scale ranging from "much less" to "much more". The distribution of answers is shown below.
 
 ```{r}
-d_4.3 <- d_studyload %>% 
-  select(`how many courses?`) %>% 
-  pivot_longer( 
-    cols = 1, 
-    names_to = "label", 
+d_4.3 <- d_studyload %>%
+  select(`how many courses?`) %>%
+  pivot_longer(
+    cols = 1,
+    names_to = "label",
     values_to = "item"
-  ) %>% 
+  ) %>%
   count(
     item
-  ) %>% 
-  filter( ! is.na(item)) 
-  
-d_4.3 %>% 
-  mutate(item = fct_relevel(item, "much less", "a bit less", "about the same", "a bit more", "much more")) %>% 
-  ggplot() + 
-  geom_col(aes(x = item, y = n)) + 
+  ) %>%
+  filter( ! is.na(item))
+
+d_4.3 %>%
+  mutate(item = fct_relevel(item, "much less", "a bit less", "about the same", "a bit more", "much more")) %>%
+  ggplot() +
+  geom_col(aes(x = item, y = n)) +
   labs(
     x = "",
     y = "frequency",
@@ -401,10 +738,10 @@ d_4.3 %>%
 
 ## Q4.4: "How much work are the current digital courses compared to usual university courses?"
 
-The question asked was "How much work are the current digital courses compared to usual university courses?". Answers could be given on a 10-point Likert scale ranging from "way less work" to "way more work". The distribution of answers is shown below. 
+The question asked was "How much work are the current digital courses compared to usual university courses?". Answers could be given on a 10-point Likert scale ranging from "way less work" to "way more work". The distribution of answers is shown below.
 
 ```{r}
-d_studyload %>% 
+d_studyload %>%
   ggplot(aes(x = `how much work?`)) +
   geom_bar() +
   scale_x_discrete(limits = 1:10) +
@@ -421,9 +758,9 @@ The question asked was "Do you think that you will need more semesters than plan
 
 ```{r}
 d_4.5 <- d_studyload %>% select(`more semesters`)
-d_4.5 %>% 
-  count(`more semesters`) %>% 
-  filter(!is.na(`more semesters`)) %>% 
+d_4.5 %>%
+  count(`more semesters`) %>%
+  filter(!is.na(`more semesters`)) %>%
   ggplot(aes(x = fct_reorder(`more semesters`, n), y = n)) +
   geom_col() +
   coord_flip() +
@@ -440,9 +777,9 @@ The question asked was "Are you regularly taking part in lectures or seminars th
 
 ```{r}
 d_4.6 <- d_studyload %>% select(`live sessions`)
-d_4.6 %>% 
-  count(`live sessions`) %>% 
-  filter(!is.na(`live sessions`)) %>% 
+d_4.6 %>%
+  count(`live sessions`) %>%
+  filter(!is.na(`live sessions`)) %>%
   ggplot(aes(x = fct_reorder(`live sessions`, n), y = n)) +
   geom_col() +
   coord_flip() +
@@ -459,9 +796,9 @@ The question asked was "Have you been able to complete all your courses from the
 
 ```{r}
 d_4.7 <- d_studyload %>% select(`completed wi term?`)
-d_4.7 %>% 
-  count(`completed wi term?`) %>% 
-  filter(!is.na(`completed wi term?`)) %>% 
+d_4.7 %>%
+  count(`completed wi term?`) %>%
+  filter(!is.na(`completed wi term?`)) %>%
   ggplot(aes(x = fct_reorder(`completed wi term?`, n), y = n)) +
   geom_col() +
   coord_flip() +
@@ -478,9 +815,9 @@ The question asked was "If you have no yet completed all of your courses from th
 
 ```{r}
 d_4.8 <- d_studyload %>% select(`information about retakes`)
-d_4.8 %>% 
-  count(`information about retakes`) %>% 
-  filter(!is.na(`information about retakes`)) %>% 
+d_4.8 %>%
+  count(`information about retakes`) %>%
+  filter(!is.na(`information about retakes`)) %>%
   ggplot(aes(x = fct_reorder(`information about retakes`, n), y = n)) +
   geom_col() +
   coord_flip() +
@@ -504,8 +841,8 @@ social = read_csv("data-raw.csv") %>% select(35:37)
 ## Q5.1 "How often do you arrange meetings with other people for studying?"
 
 ```{r}
-ggplot(social)  + 
-  geom_bar(aes( stringr::str_wrap(`How often do you arrange meetings with other people for studying?`, 20))) + 
+ggplot(social)  +
+  geom_bar(aes( stringr::str_wrap(`How often do you arrange meetings with other people for studying?`, 20))) +
   labs(
     x = "",
     y = "frequency",
@@ -518,8 +855,8 @@ ggplot(social)  +
 ```{r}
 
 
-ggplot(social)  + 
-  geom_bar(aes( stringr::str_wrap(`Do you meet virtually with people for studying?`, 20))) + 
+ggplot(social)  +
+  geom_bar(aes( stringr::str_wrap(`Do you meet virtually with people for studying?`, 20))) +
   labs(
     x = "",
     y = "frequency",
@@ -549,7 +886,7 @@ ggplot(social)  +
 d <- read_csv('data-raw.csv')
 # get the relevant part
 d_problems <- d %>% select(`How problematic was the summer term 2020 for you in general?`:`To cope with any arising issues, which of the following services have you used?`)
-# use more tractable col names 
+# use more tractable col names
 colnames(d_problems) <- c(
   "how problematic",
   "which problems",
@@ -564,9 +901,9 @@ colnames(d_problems) <- c(
 # Testing out python integration
 
 ```{python, echo=F}
-# standard imports 
+# standard imports
 import numpy as np
-import pandas as pd 
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 # sns.set_style("whitegrid")
@@ -580,7 +917,7 @@ part1_2 = pd.read_csv(filepath, header=0, usecols = [4]) # open questions
 # Visualization of the first block of questions (closed ones)
 mean1_1 = part1_1[["Studies", "GeneralMood", "Expectations"]].mean()
 print("How is the the first online semester holding up in regards to your...\n",mean1_1.round(decimals =2))
-# To plot general mood and impressions 
+# To plot general mood and impressions
 fig1_1, ax1_1 = plt.subplots()
 ax1_1.set_title('How is the the first online semester holding up in regards to your...')
 part1_1[["Studies", "GeneralMood", "Expectations"]].boxplot(ax = ax1_1)
