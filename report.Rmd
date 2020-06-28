@@ -203,6 +203,89 @@ Here is are the answers given for the open question regarding which other servic
 cat(paste('1.', as.character(d_q4.6_other$item) ), sep = '\n')
 ```
 
+# 4. Study Load/Progress
+
+In this section we are trying to obtain information about how "efficient" your online semester appears to be.
+
+```{r}
+# get the relevant part
+d_studyload <- d %>% select(`How many ECTS points are you aiming to get this semester?`:`If you have no yet completed all of your courses from the winter term, do you already know when and how you will be able to complete these courses?`)
+# use more tractable col names 
+colnames(d_studyload) <- c(
+  "ECTS points",
+  "classes dropped",
+  "how many courses?",
+  "how much work?",
+  "more semesters",
+  "live sessions",
+  "completed wi term?",
+  "information about retakes"
+)
+```
+
+## Q4.1: "How many ECTS points are you aiming to get this semester?"
+
+The question asked for pre-given amounts of ECTS points student are aiming to get ranging from "less than 15 ECTS" to "more than 30 ECTS". Here's the frequency with which each amount of ECTS points was selected.
+
+```{r}
+d_4.1 <- d_studyload %>% 
+  select(1) %>% 
+  pivot_longer( 
+    cols = 1, 
+    names_to = "label", 
+    values_to = "item"
+  ) %>% 
+  count(
+    item
+  ) %>% 
+  # One person selected two answers, "25 ECTS" and "30 ECTS". I chose to not include these answers. NAs are filtered out as well.
+  filter( ! is.na(item) & ! item == "25 ECTS;30 ECTS") 
+
+d_4.1_rearranged <- rbind(d_4.1[1:4,], d_4.1[6,])
+d_4.1_rearranged <- rbind(d_4.1[5,], d_4.1_rearranged)
+#print(d_4.1_rearranged)
+
+# How can I let ggplot take exactly the same order as in the data frame such that "less than 15 ECTS" is lowest?
+d_4.1_rearranged %>% 
+  ggplot(aes(x = `item`, y = `n`)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "How many ECTS points?"
+  ) 
+```
+
+
+## Q4.2: "How many classes did you drop because of the current situation?"
+
+The question asked for pre-given amounts of dropped classes ranging from "1" to "4" and also "None" and "All". Here's the frequency with which each amount of dropped classes was selected.
+
+```{r}
+d_4.2 <- d_studyload %>% 
+  select(2) %>% 
+  pivot_longer( 
+    cols = 1, 
+    names_to = "number", 
+    values_to = "item"
+  ) %>% 
+  count(
+    item
+  ) %>% 
+  filter( ! is.na(item)) %>% 
+  arrange(n)
+
+d_4.2 %>% 
+  ggplot(aes(x = fct_reorder(`item`, n, .desc=TRUE), y = `n`)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "How many dropped classes?"
+  ) 
+```
 
 # 5. Social Life/Collaboration
 
