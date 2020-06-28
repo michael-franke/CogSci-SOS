@@ -16,8 +16,94 @@ library(tidyverse)
 library(scales)
 library(reticulate)
 # use_condaenv('survey')
-# setwd("C:\\Users\\Sarah\\Documents\\CogSci-SOS")
+ setwd("/home/god/Desktop/XY/uni/SS20/SOS/git/CogSci-SOS")
 ```
+
+# 1. Mood and Impression 
+
+Compared to the last one, how does your first digital semester work for you so far in respect to studies, general mood and expectations.
+Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below. 
+
+
+```{r}
+general <- read_csv('data-raw.csv') %>% select(2:5)
+
+```
+
+# Q1.1: Compared to the last one, how does your first digital semester work for you so far regarding studies?
+
+```{r}
+
+general %>%
+  ggplot(aes( x =`... regarding your studies:`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x ="rating",
+    y = "frequency",
+    title = "How are your studies going during the digital semester?  (1 = bad , 10 = great)"
+  )
+  
+
+
+```
+
+
+
+# Q1.2: Compared to the last one, how does your first digital semester work for you so far regarding your general mood?
+
+```{r}
+
+general %>%
+  ggplot(aes( x =`... regarding your general mood:`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x ="rating",
+    y = "frequency",
+    title = "How is your general mood during the digital semester? (1 = bad , 10 = great)"
+  )
+  
+
+
+```
+
+
+
+
+# Q1.3: Compared to the last one, how does your first digital semester work for you so far regarding regarding your expectations (worse/better than expected?)?
+
+```{r}
+
+general %>%
+  ggplot(aes( x =`... regarding your expectations (worse/better than expected?):`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x ="rating",
+    y = "frequency",
+    title = "How is the digital semester regarding your expectations? (1 = worse , 10 = better)"
+  )
+  
+
+
+```
+
+
+# Q1.4: Here is are the answers given what reasons account for the results above
+
+```{r, results = 'asis'}
+q14 <- general %>% select(4)
+
+q14 <- general %>% select(`If you want to name reasons for the above, please drop a line.`) %>% 
+  filter(! is.na(`If you want to name reasons for the above, please drop a line.`)) %>% 
+  pull(`If you want to name reasons for the above, please drop a line.`) %>% 
+  as.character()
+
+cat(paste('1.', q14 ), sep = '\n')
+```
+
+
 
 # 4. Questions about problems
 
