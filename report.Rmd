@@ -203,9 +203,11 @@ Here is are the answers given for the open question regarding which other servic
 cat(paste('1.', as.character(d_q4.6_other$item) ), sep = '\n')
 ```
 
+
+
 # 4. Study Load/Progress
 
-In this section we are trying to obtain information about how "efficient" your online semester appears to be.
+In this section we were trying to obtain information about how "efficient" the online semester appears to be.
 
 ```{r}
 # get the relevant part
@@ -241,13 +243,9 @@ d_4.1 <- d_studyload %>%
   # One person selected two answers, "25 ECTS" and "30 ECTS". I chose to not include these answers. NAs are filtered out as well.
   filter( ! is.na(item) & ! item == "25 ECTS;30 ECTS") 
 
-d_4.1_rearranged <- rbind(d_4.1[1:4,], d_4.1[6,])
-d_4.1_rearranged <- rbind(d_4.1[5,], d_4.1_rearranged)
-#print(d_4.1_rearranged)
-
-# How can I let ggplot take exactly the same order as in the data frame such that "less than 15 ECTS" is lowest?
-d_4.1_rearranged %>% 
-  ggplot(aes(x = `item`, y = `n`)) +
+d_4.1 %>% 
+  mutate(item = fct_relevel(item, "less than 15 ECTS", "15 ECTS", "20 ECTS", "25 ECTS", "30 ECTS", "more than 30 ECTS")) %>% 
+  ggplot(aes(x = item, y = n)) +
   geom_col() +
   coord_flip() +
   labs(
@@ -267,14 +265,14 @@ d_4.2 <- d_studyload %>%
   select(2) %>% 
   pivot_longer( 
     cols = 1, 
-    names_to = "number", 
+    names_to = "label", 
     values_to = "item"
   ) %>% 
   count(
     item
   ) %>% 
   filter( ! is.na(item)) %>% 
-  arrange(n)
+  arrange(n) 
 
 d_4.2 %>% 
   ggplot(aes(x = fct_reorder(`item`, n, .desc=TRUE), y = `n`)) +
@@ -285,6 +283,126 @@ d_4.2 %>%
     y = "frequency of selection",
     title = "How many dropped classes?"
   ) 
+```
+
+## Q4.3: "Are you currently following more or less courses than in other semesters?"
+
+The question asked was "Are you currently following more or less courses than in other semesters?". Answers could be given on a 5-point scale ranging from "much less" to "much more". The distribution of answers is shown below. 
+
+```{r}
+d_4.3 <- d_studyload %>% 
+  select(`how many courses?`) %>% 
+  pivot_longer( 
+    cols = 1, 
+    names_to = "label", 
+    values_to = "item"
+  ) %>% 
+  count(
+    item
+  ) %>% 
+  filter( ! is.na(item)) 
+  
+d_4.3 %>% 
+  mutate(item = fct_relevel(item, "much less", "a bit less", "about the same", "a bit more", "much more")) %>% 
+  ggplot() + 
+  geom_col(aes(x = item, y = n)) + 
+  labs(
+    x = "",
+    y = "frequency",
+    title = "Following how many courses compared to other semesters?"
+  )
+```
+
+## Q4.4: "How much work are the current digital courses compared to usual university courses?"
+
+The question asked was "How much work are the current digital courses compared to usual university courses?". Answers could be given on a 10-point Likert scale ranging from "way less work" to "way more work". The distribution of answers is shown below. 
+
+```{r}
+d_studyload %>% 
+  ggplot(aes(x = `how much work?`)) +
+  geom_bar() +
+  scale_x_discrete(limits = 1:10) +
+  labs(
+    x = "rating",
+    y = "frequency",
+    title = "How much work are digital courses compared to usual university courses (1 = way less work; 10 = way more work)?"
+  )
+```
+
+## Q4.5: "Do you think that you will need more semesters than planned to complete your studies because of Corona?"
+
+The question asked was "Do you think that you will need more semesters than planned to complete your studies because of Corona?". The given answer options were "No", "Yes, one semester more" and "Yes, more than one semester more".
+
+```{r}
+d_4.5 <- d_studyload %>% select(`more semesters`)
+d_4.5 %>% 
+  count(`more semesters`) %>% 
+  filter(!is.na(`more semesters`)) %>% 
+  ggplot(aes(x = fct_reorder(`more semesters`, n), y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "Need more semester than planned due to Corona?"
+  )
+```
+
+## Q4.6: "Are you regularly taking part in lectures or seminars that are broadcasted live?"
+
+The question asked was "Are you regularly taking part in lectures or seminars that are broadcasted live?". Participants could choose between the two answers "Yes" and "No". The distribution of answers is shown below.
+
+```{r}
+d_4.6 <- d_studyload %>% select(`live sessions`)
+d_4.6 %>% 
+  count(`live sessions`) %>% 
+  filter(!is.na(`live sessions`)) %>% 
+  ggplot(aes(x = fct_reorder(`live sessions`, n), y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "Regularly attending live lectures or seminars?"
+  )
+```
+
+## Q4.7: "Have you been able to complete all your courses from the winter term?"
+
+The question asked was "Have you been able to complete all your courses from the winter term?". Participants could choose between the two answers "Yes" and "No". The distribution of answers is shown below.
+
+```{r}
+d_4.7 <- d_studyload %>% select(`completed wi term?`)
+d_4.7 %>% 
+  count(`completed wi term?`) %>% 
+  filter(!is.na(`completed wi term?`)) %>% 
+  ggplot(aes(x = fct_reorder(`completed wi term?`, n), y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "Been able to complete all courses from the winter term?"
+  )
+```
+
+## Q4.8: "If you have no yet completed all of your courses from the winter term, do you already know when and how you will be able to complete these courses?"
+
+The question asked was "If you have no yet completed all of your courses from the winter term, do you already know when and how you will be able to complete these courses?". Participants could again choose between the two answers "Yes" and "No". The distribution of answers is shown below.
+
+```{r}
+d_4.8 <- d_studyload %>% select(`information about retakes`)
+d_4.8 %>% 
+  count(`information about retakes`) %>% 
+  filter(!is.na(`information about retakes`)) %>% 
+  ggplot(aes(x = fct_reorder(`information about retakes`, n), y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "frequency of selection",
+    title = "If not: Do you already know when and how you will be able to complete these courses?"
+  )
 ```
 
 # 5. Social Life/Collaboration
