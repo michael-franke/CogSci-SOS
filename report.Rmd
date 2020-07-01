@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F, cache = T)
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F, cache = F)
 ```
 
 ```{r, echo = F}
@@ -85,12 +85,10 @@ Here is what was submitted:
 
 ```{r, results = 'asis'}
 q14 <- general %>% select(4)
-
 q14 <- general %>% select(`If you want to name reasons for the above, please drop a line.`) %>%
   filter(! is.na(`If you want to name reasons for the above, please drop a line.`)) %>%
   pull(`If you want to name reasons for the above, please drop a line.`) %>%
   as.character()
-
 cat(paste('1.', q14 ), sep = '\n')
 ```
 
@@ -175,6 +173,7 @@ d_lectures %>%
   )
 
 ```
+
 ## Free text answers
 
 When asked whether they want to add something specific about the parts of online university that work well or not so well or if  they have suggestions on how to improve the shortcomings of specific types of sessions the students answered freely. The number in front of the quotes represent the participant number. The quotes are sorted
@@ -182,7 +181,7 @@ according to their topic. Within the blocks the first part are additions to the 
 Hence, when a participant answered both, their number appears two times. Spelling was not corrected.
 When sensible a rough Recap is added to summarise the results, sorted according to the number of students mentioned an issue/suggestion
 
-### Q2.4.1 Lectures  
+### Lectures  
 
 2: Some courses [...] don’t offer tutorial/practice session at all.  
 26: the big blue button channel works great for lectures but not really for tutorials.  
@@ -227,7 +226,7 @@ Communication in regard to exams (also of last semester) should be improved and 
 be announced at least 3 weeks in advance (74)  
 Testate work well (141)  
 
-### Q2.4.2 Seminars
+### Seminars
 
 26: [...] from my experience most students dont want to turn on their microphone, so no one is speaking except the tutor. people try to explain their question in the chats, which usually leads to misunderstandings.. It’s pretty exhausting.  
 61: In Seminars the online format doesn’t really invite discussion that much especially because I for example don’t have a working mic or camera on my laptop so I can’t speak in discussions and will have to use my phone to record myself during presentations.  
@@ -251,7 +250,7 @@ This is worsen in large seminars, hence, smaller groups are appreciated (145, 10
 Using more of the technical possibilities (e.g. videos, breakout rooms, other means to engage the students) would be appreciated (144).  
 Receiving feedback before and after a planned presentation would be valuable (88)  
 
-### Q2.4.3 General Lectures/Seminars
+### General Lectures/Seminars
 
 37: It is incredibly hard to reach some professors, they just do not reply to emails or calls...  
 71: Sometimes perhaps better prepare lecturers and tell them what (new) resources they can use.  
@@ -267,7 +266,7 @@ Prepare the teachers to make use of the resources to create interactive and orga
 It is hard to reach some professors (37).    
 Changing the workload during the semester is not appreciated as it deranges the planning (125)    
 
-### Q2.4.4 BigBlueBottom and Stud.Ip
+### BigBlueBottom and Stud.Ip
 
 63: The stud.ip courseware (if used well) helps to follow the red thread of a course  
 98: BBB has problems in one of my courses, in otheres it works fine  
@@ -282,7 +281,7 @@ Adding a function to raise a hand in BBB would be appreciated (136).
 If Stud.Ip courseware is used well, it helps the students to follow a course (63).  
 There is a need for a better teaching/learning platform than Stud.Ip as it has many limitations (148).  
 
-### Q2.4.5 Examination Office
+### Examination Office
 
 9: The examination office is particularly slow to respond to emails and other requests like registration of thesis, etc.  
 145: Nowadays it is very difficult to reach the examination office.  
@@ -292,7 +291,7 @@ There is a need for a better teaching/learning platform than Stud.Ip as it has m
 
 The examination office is slow to respond or difficult to reach (9,145) and the examination office is doing a great job (149)  
 
-### Q2.4.6 Technical Issues
+### Technical Issues
 
 77: The well working parts depend on a good internet connection;)  
 139: In general online lectures should work really well because they are often not that interactive and could easily be recorded but unfortunately in my experience the recordings often lack quality.  
@@ -308,13 +307,13 @@ The recordings have suboptimal audio quality (152, 112, 139).
 The students internet connection is hindering them to watch the (live) lectures (77,43).  
 The missing access to printers is problematic (27,145).  
 
-### Q2.4.7 Meta Critique
+### Meta Critique
 
 31: It is all very relativ.. The lectures work well compared to what? How it was before; then it is bad. How it works compared to other universities or schools: good enough. I think the problem is that this semester still counts as a normal semester (as far as I know), which is highly unfair. I would consider all of the classes much better if it would be a choice to take them.  
 113: Yes, I love the fact that evaluations are getting more project-based and getting further away from tests. Tests suck! They are stressful and not that accurately representing ones’ understanding and learning of the topics. I’m so enjoying this online phase.  
 38: In general Lecturers / anyone in teaching should be aware of how problematic the situation is and be careful to be *extremely* forgiving with regards to deadlines, examination strategies, etc. There many issues students have to tackle right now which might render them unable to actively take part in studying, which are not at all their fault - help these students to still be able to finish their courses.  
 
-### Q2.4.8 Homework/Projects/Presentation/General Study Organization
+### Homework/Projects/Presentation/General Study Organization
 
 40: Probably the biggest problem I have this semester is homework and projects. Working together just works so much better when you sit next to each other and can see what the other person is doing. Screensharing crowds your own screen, pointing at stuff simply does not work. Also I see no alternative for this. Just sucks.  
 51: I really like online presentations since one does not have to stand in front of the whole class but rather can sit at home while giving the presentation. That might be more comfortable for shy persons.  
@@ -323,7 +322,7 @@ The missing access to printers is problematic (27,145).
 147: Organizationally it works really well, but it is really exhausting both on body and mind to have everything going on online.  
 144: [...] For homework: be more dynamic and flexible for the amount of homework, instead of having one big performance goal, use a learning goal. Studying by myself makes it easier to learn without a heavy time pressure, but I need more time for solving homeworks and preparing the material from the lectures. It is quite uncomfortable to watch at a screen for more than 6 hours a day  
 
-### Q2.4.9 Social Aspects
+### Social Aspects
 
 121: i cannot collaborate, discuss or group study with fellows. i cannot discuss my research ideas with a process if i happen to pass them by in the corridor or i see their office door open.  
 148: Studying is a lot more fun and a lot more productive and creative if you have spontaneous and regular contact to other people. This is a fundamental part of research and studying that is missing totally in an online university.  
@@ -333,7 +332,7 @@ The missing access to printers is problematic (27,145).
 Studying, discussing, generally research is missing a fundamental part when there is no regular contact with other people (121, 148).
 
 
-# 4. Questions about problems
+# 3. Problems encountered during the "digital" semester
 
 ```{r, echo = F}
 # read in the data
@@ -351,11 +350,15 @@ colnames(d_problems) <- c(
 )
 ```
 
-INSERT TEXT: Motivation behind this question set (copy-paste in part from survey).
+In this section we had wanted to specifically ask which (if any) problems arose for the students due to the Covid-19 crisis in general and the online semester in particular.
 
-## Q4.1: "How problematic was the summer term 2020 for you in general?"
+## How problematic was the summer term in gernal?
 
-The question asked was "How problematic was the summer term 2020 for you in general?". Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below.
+The question asked was:
+
+> How problematic was the summer term 2020 for you in general?
+
+Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below.
 
 ```{r}
 d_problems %>%
@@ -372,7 +375,11 @@ d_problems %>%
 
 
 
-## Q4.2: "Which of the following issues or problems affected you as a result of the Covid-19 crisis and/or the online semester?"
+## Which issues were encountered?
+
+The question asked was:
+
+> Which of the following issues or problems affected you as a result of the Covid-19 crisis and/or the online semester?
 
 This question asked for (multiple selection) of pre-given issues which students may have faced. Here's the frequency with which each issue was selected. Note that only 14 participants indicated "no particular issue".
 
@@ -424,7 +431,12 @@ The question also allowed for specification of "other issues" unmentioned in our
 cat(paste('1.', as.character(d_q4.2_other$item) ), sep = '\n')
 ```
 
-## Q4.3 "Do you suffer from any psychological conditions?"
+## Psychological problems
+
+The question asked was:
+
+> Do you suffer from any psychological conditions?
+
 
 ```{r}
 d_q4.3 <- d_problems %>% select(`psychol. problem?`)
@@ -441,7 +453,9 @@ d_q4.3 %>%
   )
 ```
 
-## Q4.4 "If you suffer from any psychological conditions, did your situation worsen since March 2020?"
+A follow-up was asked as well, namely:
+
+> If you suffer from any psychological conditions, did your situation worsen since March 2020?
 
 ```{r}
 d_q4.4 <- d_problems %>% select(`psychol. problem worsened?`)
@@ -458,7 +472,13 @@ d_q4.4 %>%
   )
 ```
 
-## Q4.5 "If you like, please tell us about any particularly striking problems that you encountered personally. If possible, please mention ways in which similar problems could be preventable or solvable for others in the future."
+## Open question: other issues?
+
+We also asked for any other issues to report freely:
+
+> If you like, please tell us about any particularly striking problems that you encountered personally. If possible, please mention ways in which similar problems could be preventable or solvable for others in the future.
+
+The answers given are listed here:
 
 ```{r, results = 'asis'}
 d_q4.5 <- d_problems %>% select(`personal report`) %>%
@@ -469,7 +489,13 @@ d_q4.5 <- d_problems %>% select(`personal report`) %>%
 cat(paste('1.', d_q4.5 ), sep = '\n')
 ```
 
-## Q4.6 "To cope with any arising issues, which of the following services have you used?"
+## Which help was made use of?
+
+We asked:
+
+> To cope with any arising issues, which of the following services have you used?
+
+Participants selected from a pre-defined list (multiple selections possible), but could also indicate 'other':
 
 ```{r}
 fixed_items_q4.6 <- c("Advice mentoring team", "Advice Fachschaft", "Advice study coordinator", "Advice dean of studies", "Psychological counseling", "Examination office", "None")
@@ -539,7 +565,11 @@ colnames(d_studyload) <- c(
 )
 ```
 
-## Q4.1: "How many ECTS points are you aiming to get this semester?"
+## ECTS point goal for this semester
+
+We asked:
+
+> How many ECTS points are you aiming to get this semester?"
 
 The question asked for pre-given amounts of ECTS points student are aiming to get ranging from "less than 15 ECTS" to "more than 30 ECTS". Here's the frequency with which each amount of ECTS points was selected.
 
@@ -570,7 +600,11 @@ d_4.1 %>%
 ```
 
 
-## Q4.2: "How many classes did you drop because of the current situation?"
+## Classes dropped
+
+We asked:
+
+> How many classes did you drop because of the current situation?
 
 The question asked for pre-given amounts of dropped classes ranging from "1" to "4" and also "None" and "All". Here's the frequency with which each amount of dropped classes was selected.
 
@@ -599,9 +633,13 @@ d_4.2 %>%
   )
 ```
 
-## Q4.3: "Are you currently following more or less courses than in other semesters?"
+## Change of course load
 
-The question asked was "Are you currently following more or less courses than in other semesters?". Answers could be given on a 5-point scale ranging from "much less" to "much more". The distribution of answers is shown below.
+We asked:
+
+> Are you currently following more or less courses than in other semesters?
+
+Answers could be given on a 5-point scale ranging from "much less" to "much more". The distribution of answers is shown below.
 
 ```{r}
 d_4.3 <- d_studyload %>%
@@ -627,9 +665,13 @@ d_4.3 %>%
   )
 ```
 
-## Q4.4: "How much work are the current digital courses compared to usual university courses?"
+## General work load (compared to previous semesters)
 
-The question asked was "How much work are the current digital courses compared to usual university courses?". Answers could be given on a 10-point Likert scale ranging from "way less work" to "way more work". The distribution of answers is shown below.
+We asked
+
+> How much work are the current digital courses compared to usual university courses?
+
+Answers could be given on a 10-point Likert scale ranging from "way less work" to "way more work". The distribution of answers is shown below.
 
 ```{r}
 d_studyload %>%
@@ -643,9 +685,13 @@ d_studyload %>%
   )
 ```
 
-## Q4.5: "Do you think that you will need more semesters than planned to complete your studies because of Corona?"
+## Study delay
 
-The question asked was "Do you think that you will need more semesters than planned to complete your studies because of Corona?". The given answer options were "No", "Yes, one semester more" and "Yes, more than one semester more".
+We asked:
+
+> Do you think that you will need more semesters than planned to complete your studies because of Corona?
+
+The given answer options were "No", "Yes, one semester more" and "Yes, more than one semester more".
 
 ```{r}
 d_4.5 <- d_studyload %>% select(`more semesters`)
@@ -662,9 +708,13 @@ d_4.5 %>%
   )
 ```
 
-## Q4.6: "Are you regularly taking part in lectures or seminars that are broadcasted live?"
+## Participation in live online lectures / seminars
 
-The question asked was "Are you regularly taking part in lectures or seminars that are broadcasted live?". Participants could choose between the two answers "Yes" and "No". The distribution of answers is shown below.
+We asked: 
+
+> Are you regularly taking part in lectures or seminars that are broadcasted live?
+
+Participants could choose between the two answers "Yes" and "No". The distribution of answers is shown below.
 
 ```{r}
 d_4.6 <- d_studyload %>% select(`live sessions`)
@@ -681,9 +731,13 @@ d_4.6 %>%
   )
 ```
 
-## Q4.7: "Have you been able to complete all your courses from the winter term?"
+## Winter term 19/20 completed?
 
-The question asked was "Have you been able to complete all your courses from the winter term?". Participants could choose between the two answers "Yes" and "No". The distribution of answers is shown below.
+We asked:
+
+> Have you been able to complete all your courses from the winter term?
+
+Participants could choose between the two answers "Yes" and "No". The distribution of answers is shown below.
 
 ```{r}
 d_4.7 <- d_studyload %>% select(`completed wi term?`)
@@ -700,9 +754,11 @@ d_4.7 %>%
   )
 ```
 
-## Q4.8: "If you have no yet completed all of your courses from the winter term, do you already know when and how you will be able to complete these courses?"
+We also asked a follow-up:
 
-The question asked was "If you have no yet completed all of your courses from the winter term, do you already know when and how you will be able to complete these courses?". Participants could again choose between the two answers "Yes" and "No". The distribution of answers is shown below.
+> If you have no yet completed all of your courses from the winter term, do you already know when and how you will be able to complete these courses?
+
+Participants could again choose between the two answers "Yes" and "No". The distribution of answers is shown below.
 
 ```{r}
 d_4.8 <- d_studyload %>% select(`information about retakes`)
@@ -721,7 +777,7 @@ d_4.8 %>%
 
 # 5. Social Life/Collaboration
 
-In this section, we are asking about how you organize your collaboration with other students. We also ask questions about your personal life. (All optional, of course!)
+In this section, we asked about how students organize their free time and collaboration with other students.
 
 ```{r}
 # filepath = "C:/Users/Sarah/Documents/CogSci-SOS/data-raw.csv"
@@ -729,43 +785,66 @@ social = read_csv("data-raw.csv") %>% select(35:37)
 ```
 
 
-## Q5.1 "How often do you arrange meetings with other people for studying?"
+## Online study group meetings
+
+We asked:
+
+> How often do you arrange meetings with other people for studying?
+
+Responses were:
 
 ```{r}
-ggplot(social)  +
-  geom_bar(aes( stringr::str_wrap(`How often do you arrange meetings with other people for studying?`, 20))) +
+social %>% 
+  mutate(frequency = `How often do you arrange meetings with other people for studying?`) %>%   mutate(frequency = factor(frequency, levels = c('less often than in previous semesters', 'about the same', 'more often than in previous semesters'))) %>% 
+  filter(!is.na(frequency)) %>% 
+  ggplot(aes(frequency)) +
+  geom_bar() +
+  coord_flip() +
   labs(
     x = "",
     y = "frequency",
-    title = "How often do you arrange meetings with other people for studying?"
+    title = "Online study group meetings?"
   )
 
 ```
 
-## Q5.2 "Do you meet virtually with people for studying?"
+We also followed up:
+
+> Do you meet virtually with people for studying?
+
+Answers were:
+
 ```{r}
-
-
-ggplot(social)  +
-  geom_bar(aes( stringr::str_wrap(`Do you meet virtually with people for studying?`, 20))) +
+social %>% 
+  mutate(meet = `Do you meet virtually with people for studying?`) %>% 
+  filter(!is.na(meet)) %>% 
+  ggplot()  +
+  geom_bar(aes( `Do you meet virtually with people for studying?`)) +
   labs(
     x = "",
     y = "frequency",
     title = "Do you meet virtually with people for studying?"
   )
-
 ```
 
-## Q5.3 "Would you wish there would be offer more online social events?"
+## Desire for online social activity
+
+We asked:
+
+> Would you wish there would be more online social events?
+
+Answers were:
 
 ```{r}
-
-ggplot(social)  +
-  geom_bar(aes( stringr::str_wrap(`Would you wish there would be offer more online social events?`, 20))) +
+social %>% 
+  mutate(social = `Would you wish there would be offer more online social events?`) %>% 
+  filter(! is.na(social)) %>% 
+  ggplot()  +
+  geom_bar(aes(social)) +
   labs(
     x = "",
     y = "frequency",
-    title = "Would you wish there would be offer more online social events?"
+    title = "Would you wish there would be more online social events?"
   )
 ```
 
@@ -814,3 +893,67 @@ plt.xticks(ticks= [1,2,3],labels = ["Studies","General\nMood", "Expectations"],f
 plt.ylabel("Bad                                                     Well")
 plt.show()
 ```
+
+# 7. Final questions
+
+```{r}
+final <- read_csv('data-raw.csv') %>% select(53:56) %>% 
+  mutate(
+    program = `What program are you enrolled in?`,
+    semester = `What semester are you in?`,
+    know = `In case the next semester will be an online semester like the current, how important would it be for you to know this as soon as possible?`,
+    remarks = `Please share anything that so far you had no chance of mentioning!`
+  ) %>% select(program, semester, know, remarks)
+```
+
+## Who took this survey
+
+We asked participants to give their study program and their semester.
+
+```{r}
+final %>%
+  filter(! is.na(program)) %>% 
+  ggplot(aes(program)) +
+  geom_bar()
+```
+
+```{r}
+final %>%
+  filter(! is.na(semester)) %>% 
+  ggplot(aes(semester)) +
+  geom_bar()
+```
+
+## Certainty about winter term
+
+We asked:
+
+> In case the next semester will be an online semester like the current, how important would it be for you to know this as soon as possible?
+
+Here is the distribution of answers:
+
+```{r}
+final %>% filter(!is.na(know)) %>% 
+  mutate(know = factor(know, levels = c("It doesn't matter at all when I would know", "Good to know at some point but not urgent", "Very important to know ASAP"))) %>% 
+  ggplot(aes(know)) + 
+  geom_bar() +
+  coord_flip()
+```
+
+## Final remarks
+
+We also encouraged to give any final remarks:
+
+> Please share anything that so far you had no chance of mentioning!
+
+Here is what was written:
+
+```{r, results = 'asis'}
+remarks <- final %>% select(remarks) %>%
+  filter(! is.na(`remarks`)) %>%
+  pull(`remarks`) %>%
+  as.character()
+
+cat(paste('1.', remarks ), sep = '\n')
+```
+
