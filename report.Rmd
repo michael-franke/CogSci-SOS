@@ -1,5 +1,6 @@
 ---
 title: "Report on Survey among Students of Cognitive Science / Computing"
+author: "Michael Franke, Kristina Kobrock, Laura Krieger, Sarah Neuhoff, Alessandro Schlott, Leon Schmid, Lea Tiyavorabun and Benjamin Werk"
 output:
   html_document:
     toc: true
@@ -8,7 +9,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F)
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F, cache = T)
 ```
 
 ```{r, echo = F}
@@ -16,81 +17,71 @@ library(tidyverse)
 library(scales)
 library(reticulate)
 # use_condaenv('survey')
- setwd("/home/god/Desktop/XY/uni/SS20/SOS/git/CogSci-SOS")
+ # setwd("/home/god/Desktop/XY/uni/SS20/SOS/git/CogSci-SOS")
 ```
+
+The students of Cognitive Science (BSc, MSc) and Cognitive Computing (MSc) were invited to take part in a voluntary online survey to be completed between June 11th and June 16th of 2020. The survey was hosted on Google Forms. All data was handled anonymously. The survey can be inspected [here](https://forms.gle/vf6w6rCUeAxPXbjM9). Participation in the survey was elicited by an email to "studall" which also contained information on where to find help with various problems.
+
+The goal of this initiative was to obtain feedback from our students on:
+
+- how they experienced the "digital" summer term 2020 so far
+- in particular, which problems and obstacles were encountered
+- how, based on these experiences, digital teaching can be improved in the future
+
+In the following we descriptively reproduce the results from all the questions asked with little interpretation or redaction. Only few comments to open-ended questions were removed in case they targeted specific courses or persons.
+
+Cheers to everyone who participated in this survey and many thanks also to the volunteers who helped in the creation of the survey and the data analysis. In alphabetical order the contributors were: Michael Franke, Kristina Kobrock, Laura Krieger, Sarah Neuhoff, Alessandro Schlott, Leon Schmid, Lea Tiyavorabun and Benjamin Werk.
+
 
 # 1. Mood and Impression
 
-Compared to the last one, how does your first digital semester work for you so far in respect to studies, general mood and expectations.
-Answers could be given on a 10-point Likert scale ranging from 1 (= very easy / no problems at all) to 10  (= very problematic / many problems). The distribution of answers is shown below.
+The first part of the survey asked for general mood and impressions. It asked the questions:
+
+> Compared to the last one, how does your first digital semester work for you so far regarding your ...
+>
+> - ... **studies**?;
+>
+> - ... general **mood**?;
+>
+> - ... **expectations** (worse/better than expected)?
+
+Answers could be given on a 10-point Likert scale ranging from 1 (= sad smiley) to 10  (= happy smiley). The distribution of answers is shown below.
 
 
 ```{r}
-general <- read_csv('data-raw.csv') %>% select(2:5)
-
+general <- read_csv('data-raw.csv') %>% select(2:5) %>% 
+  mutate(
+    studies = `... regarding your studies:`,
+    mood = `... regarding your general mood:`,
+    expectations = `... regarding your expectations (worse/better than expected?):`
+  )
 ```
 
-## Q1.1: Compared to the last one, how does your first digital semester work for you so far regarding studies?
 
 ```{r}
 
 general %>%
-  ggplot(aes( x =`... regarding your studies:`)) +
+  select(studies, mood, expectations) %>% 
+  pivot_longer(cols = everything(), names_to = "question", values_to = "answer") %>% 
+  mutate(question = factor(question, levels = c("studies", "mood", "expectations"))) %>% 
+  ggplot(aes( x = answer)) +
   geom_bar() +
   scale_x_discrete(limits = 1:10) +
+  facet_grid(question~.) +
   labs(
     x ="rating",
     y = "frequency",
     title = "How are your studies going during the digital semester?  (1 = bad , 10 = great)"
   )
 
-
-
 ```
 
+We also provided room for open feedback:
 
+> If you want to name reasons for the above, please drop a line.
+    
+Here is what was submitted:
 
-## Q1.2: Compared to the last one, how does your first digital semester work for you so far regarding your general mood?
-
-```{r}
-
-general %>%
-  ggplot(aes( x =`... regarding your general mood:`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x ="rating",
-    y = "frequency",
-    title = "How is your general mood during the digital semester? (1 = bad , 10 = great)"
-  )
-
-
-
-```
-
-
-
-
-## Q1.3: Compared to the last one, how does your first digital semester work for you so far regarding regarding your expectations (worse/better than expected?)?
-
-```{r}
-
-general %>%
-  ggplot(aes( x =`... regarding your expectations (worse/better than expected?):`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x ="rating",
-    y = "frequency",
-    title = "How is the digital semester regarding your expectations? (1 = worse , 10 = better)"
-  )
-
-
-
-```
-
-
-## Q1.4: Here is are the answers given what reasons account for the results above
 
 ```{r, results = 'asis'}
 q14 <- general %>% select(4)
@@ -104,209 +95,88 @@ cat(paste('1.', q14 ), sep = '\n')
 ```
 
 
-# 2. What works well? What doesn't?
+# 2. What works well online? What doesn't?
 
-In this section we were are asking for the students experience with the online semester, in particular with different formats of teaching/learning.
+In this section we were are asking for the students experience with the online semester, in particular with different formats of teaching, learning etc.
 
-They were asked to indicate how much they agree with the following statements with the ongoing semester in mind on a 10-point Likert scale ranging from 1 (= I do not agree) to 10 (= I agree)
+## Rating scale answers
+
+First participants were asked to indicate how much they agree with the following statements with the ongoing semester in mind on a 10-point Likert scale ranging from 1 (= I do not agree) to 10 (= I agree):
+
+> The online format works well for ...
+> 
+> - **lectures** (lecturer presents information)
+> 
+> - **tutorials** (teacher presents and discusses exercises and solutions)
+> 
+> - **"Testate"** (students present homework to e.g. research assistant)
+>
+> - **small seminars** (<= 15 students)
+> 
+> - **large seminars** (>15 students)
+>
+> - listening to **presentations**
+>
+> - **reading clubs**
+>
+> - **study projects**
+>
+> - solving homework **exercises** in student groups
+>
+> - working on **group projects** (papers/presentations...)
+>
+> - working as a **HiWi**
+>
+> - participating in **extracurricular activities** (e.g. student body, university politics)
+>
+> - managing general **administration** tasks (e.g. examination office)
+
 
 ```{r, echo = F}
 # read in the data
 d <- read_csv('data-raw.csv')
 d_lectures <- d %>% select(`Online classes work well for lectures (lecturer presents information)`: `Managing general administration tasks (e.g. examination office) remotely works fine.`)
 # use more tractable col names
-colnames(d_lectures) <- c(
+lecture_name <- c(
   "lectures",
   "tutorials",
   "Testate",
-  "SmallSeminars",
-  "LargeSeminars",
-  "presentation",
-  "ReadingClub",
-  "StudyProject",
-  "Homework",
-  "Projects",
+  "small seminars",
+  "large seminars",
+  "presentations",
+  "reading clubs",
+  "study projects",
+  "exercises",
+  "group projects",
   "HiWi",
-  "Extracurricular",
-  "AdminTasks"
+  "extracurricular",
+  "administration"
 )
+colnames(d_lectures) <- lecture_name
 ```
-## Q2.1 Different Session Types
-
-What students say how well the online format works for certain session types:
 
 
-```{r}
-d_lectures %>%
-  # mutate(`lectures` = as.character(`lectures`)) +
-  ggplot(aes(x = `lectures`)) +
+```{r, fig.height = 20}
+
+d_lectures %>% 
+  pivot_longer(cols = everything(), names_to = "question", values_to = "answer") %>% 
+  mutate(
+    question = factor(question, levels = lecture_name)
+  ) %>% 
+  filter(! is.na(answer)) %>% 
+  ggplot(aes(x = answer)) +
   geom_bar() +
+  facet_grid(question ~.) +
   scale_x_discrete(limits = 1:10) +
   labs(
     x = "rating",
     y = "frequency",
-    title = "The online format works well for LECTURES (1 = do not agree; 10 = agree)"
+    title = "The online format works well for ... (1 = do not agree; 10 = agree)"
   )
 
 ```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `tutorials`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "The online format works well for TUTORIALS (1 = do not agree; 10 = agree)"
-  )
+## Free text answers
 
-```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `Testate`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "The online format works well for TESTATE (1 = do not agree; 10 = agree)"
-  )
-
-```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `SmallSeminars`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "The online format works well for SMALL SEMINARS (<=15 people) \n(1 = do not agree; 10 = agree)"
-  )
-
-```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `LargeSeminars`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "The online format works well for LARGE SEMINARS (>15 people) \n(1 = do not agree; 10 = agree)"
-  )
-
-```
-
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `ReadingClub`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "The online format works well for READING CLUBS (1 = do not agree; 10 = agree)"
-  )
-
-```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `StudyProject`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "The online format works well for STUDY PROJECTS \n(1 = do not agree; 10 = agree)"
-  )
-
-```
-
-
-## Q2.2 Different Tasks
-
-What students say how well the online format works for certain tasks:
-
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `presentation`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "The online format works well for giving or listening to presentation \n(1 = do not agree; 10 = agree)"
-  )
-
-```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `Homework`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "Working on homework exercises online as a group works fine \n(1 = do not agree; 10 = agree)"
-  )
-
-```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `Projects`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "Working together on other projects (presentation, paper,..) online works well \n(1 = do not agree; 10 = agree)"
-  )
-
-```
-
-## Q2.3 Other Activities
-
-What students say how well the online format works for other things:
-
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `HiWi`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "Working online as a student assistant works fine (1 = do not agree; 10 = agree)"
-  )
-
-```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `Extracurricular`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "Participating in extracurricular activities (e.g. student body, university politics)\n online works fine (1 = do not agree; 10 = agree)"
-  )
-
-```
-```{r}
-d_lectures %>%
-  ggplot(aes(x = `AdminTasks`)) +
-  geom_bar() +
-  scale_x_discrete(limits = 1:10) +
-  labs(
-    x = "rating",
-    y = "frequency",
-    title = "Managing general administration tasks (e.g. examination office) remotely works fine.  \n(1 = do not agree; 10 = agree)"
-  )
-
-```
-
-## Q2.4 Specifics and Suggestions
 When asked whether they want to add something specific about the parts of online university that work well or not so well or if  they have suggestions on how to improve the shortcomings of specific types of sessions the students answered freely. The number in front of the quotes represent the participant number. The quotes are sorted
 according to their topic. Within the blocks the first part are additions to the question “What works/What doesn’t?”, the latter part are suggestions to improve the shortcomings.
 Hence, when a participant answered both, their number appears two times. Spelling was not corrected.
@@ -919,9 +789,7 @@ colnames(d_problems) <- c(
 ```
 
 
-# Testing out python integration
-
-```{python, echo=F}
+```{python, echo=F, eval=F}
 # standard imports
 import numpy as np
 import pandas as pd
