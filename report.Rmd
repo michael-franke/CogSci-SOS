@@ -17,7 +17,7 @@ library(tidyverse)
 library(scales)
 library(reticulate)
 # use_condaenv('survey')
- # setwd("/home/god/Desktop/XY/uni/SS20/SOS/git/CogSci-SOS")
+setwd("")
 ```
 
 The students of Cognitive Science (BSc, MSc) and Cognitive Computing (MSc) were invited to take part in a voluntary online survey to be completed between June 11th and June 16th of 2020. The survey was hosted on Google Forms. All data was handled anonymously. The survey can be inspected [here](https://forms.gle/vf6w6rCUeAxPXbjM9). Participation in the survey was elicited by an email to "studall" which also contained information on where to find help with various problems.
@@ -49,12 +49,13 @@ Answers could be given on a 10-point Likert scale ranging from 1 (= sad smiley) 
 
 
 ```{r}
-general <- read_csv('data-raw.csv') %>% select(2:5) %>% 
+general <- read_csv('raw.csv') %>% select(2:5) %>% 
   mutate(
     studies = `... regarding your studies:`,
     mood = `... regarding your general mood:`,
     expectations = `... regarding your expectations (worse/better than expected?):`
   )
+
 ```
 
 
