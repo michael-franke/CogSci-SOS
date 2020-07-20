@@ -16,8 +16,6 @@ knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F, cache = F
 library(tidyverse)
 library(scales)
 library(reticulate)
-# use_condaenv('survey')
- # setwd("/home/god/Desktop/XY/uni/SS20/SOS/git/CogSci-SOS")
 ```
 
 The students of Cognitive Science (BSc, MSc) and Cognitive Computing (MSc) were invited to take part in a voluntary online survey to be completed between June 11th and June 16th of 2020. The survey was hosted on Google Forms. All data was handled anonymously. The survey can be inspected [here](https://forms.gle/vf6w6rCUeAxPXbjM9). Participation in the survey was elicited by an email to "studall" which also contained information on where to find help with various problems.
@@ -49,7 +47,7 @@ Answers could be given on a 10-point Likert scale ranging from 1 (= sad smiley) 
 
 
 ```{r}
-general <- read_csv('data-raw.csv') %>% select(2:5) %>% 
+general <- read_csv('rand.csv') %>% select(2:6) %>% 
   mutate(
     studies = `... regarding your studies:`,
     mood = `... regarding your general mood:`,
@@ -132,7 +130,7 @@ First participants were asked to indicate how much they agree with the following
 
 ```{r, echo = F}
 # read in the data
-d <- read_csv('data-raw.csv')
+d <- read_csv('rand.csv')
 d_lectures <- d %>% select(`Online classes work well for lectures (lecturer presents information)`: `Managing general administration tasks (e.g. examination office) remotely works fine.`)
 # use more tractable col names
 lecture_name <- c(
@@ -183,160 +181,160 @@ When sensible a rough Recap is added to summarise the results, sorted according 
 
 ### Lectures  
 
-2: Some courses [...] don’t offer tutorial/practice session at all.  
-26: the big blue button channel works great for lectures but not really for tutorials.  
-27: Tutorials are not always given.  
-28: Lectures are missing and the content isn’t well transmitted through online lectures. Currently I’m learning solely by books and the web. I would like to have at least some guidance from our lecturer on where to look for information or which content should be looked at more closely.  
-29: It is annoying when video recordings etc. are uploaded unreliable (e.g. one week on monday and the other on thursday), that makes it hard to create oneself a fixed time schedule.  
-42: Some classes are not well adapted to total virtual platforms. The classes are basically composed of a almost 2 hours video and 60-80 slides. That’s all. Given classes are online. then the strategy should be a different one. I would rather watch a 20 minutes video explaining straight away what is important and answer some questions in between. and then spend the rest of the time researching for answering some extra question the professor formulates than just passively listening him talk  
-72: I don’t think online lectures work well as the uploaded videos often have a very bad quality or are even missing. In addition to that it is also harder to ask the lecturer questions, as they often don’t offer QA sessions.  
-74: communication especially regarding the exams, also from WS19/20.  
-87: The quality of the lecture strongly depends on the motivation of the lecturer to make the lecture work.  
-96: More Live Streams would be appreciated.  
-100: If online lectures work is dependent in the lecturer. It can be frustrating, when lectures do not upload their material in time since this can disrupt the study Plan that one has created quite a bit. The quality of the online presentation in most lectures exceeds expectations  
-116: Whether online classes (lecturer presents information) work well depends completely on how it is done: Just doing a regular lecture and recording it is not really helpful, but they are exhausting. Doing those live, with us having to attend, is even worse. Really making use of the available digital means is awesome, though; e.g. short pod- and/or screencasts, a well balanced mix of online tutorials and reading assignments, even VIPS can be really great.  
-141: I am positively suprised how well the Testate are going.  
-42: Trying to improve the actual passive 2 hours video-slide format of the lectures would be a great start.  
-60: Eventhough the online format suits the lectures, the quality of the resulting programs varies. E.g. it would be beneficial if lecturers adjusted their style for prerecorded lectures. Since we do not see each other in person, the (in my opinion silly) pressure to avoid just reading off of a script is non-existant. I’d much prefer you reading a script if it meant that the information was conveyed in
+1: Some courses [...] don’t offer tutorial/practice session at all.  
+2: the big blue button channel works great for lectures but not really for tutorials.  
+3: Tutorials are not always given.  
+4: Lectures are missing and the content isn’t well transmitted through online lectures. Currently I’m learning solely by books and the web. I would like to have at least some guidance from our lecturer on where to look for information or which content should be looked at more closely.  
+5: It is annoying when video recordings etc. are uploaded unreliable (e.g. one week on monday and the other on thursday), that makes it hard to create oneself a fixed time schedule.  
+6: Some classes are not well adapted to total virtual platforms. The classes are basically composed of a almost 2 hours video and 60-80 slides. That’s all. Given classes are online. then the strategy should be a different one. I would rather watch a 20 minutes video explaining straight away what is important and answer some questions in between. and then spend the rest of the time researching for answering some extra question the professor formulates than just passively listening him talk  
+7: I don’t think online lectures work well as the uploaded videos often have a very bad quality or are even missing. In addition to that it is also harder to ask the lecturer questions, as they often don’t offer QA sessions.  
+8: communication especially regarding the exams, also from WS19/20.  
+9: The quality of the lecture strongly depends on the motivation of the lecturer to make the lecture work.  
+10: More Live Streams would be appreciated.  
+11: If online lectures work is dependent in the lecturer. It can be frustrating, when lectures do not upload their material in time since this can disrupt the study Plan that one has created quite a bit. The quality of the online presentation in most lectures exceeds expectations  
+12: Whether online classes (lecturer presents information) work well depends completely on how it is done: Just doing a regular lecture and recording it is not really helpful, but they are exhausting. Doing those live, with us having to attend, is even worse. Really making use of the available digital means is awesome, though; e.g. short pod- and/or screencasts, a well balanced mix of online tutorials and reading assignments, even VIPS can be really great.  
+13: I am positively suprised how well the Testate are going.  
+14: Trying to improve the actual passive 2 hours video-slide format of the lectures would be a great start.  
+15: Eventhough the online format suits the lectures, the quality of the resulting programs varies. E.g. it would be beneficial if lecturers adjusted their style for prerecorded lectures. Since we do not see each other in person, the (in my opinion silly) pressure to avoid just reading off of a script is non-existant. I’d much prefer you reading a script if it meant that the information was conveyed in
 a more concise way. At least one lecturer appears to utilize editing techniques in their prerecorded videos, making cuts. Whether this is to just take a break, edit out mistakes, or to select a better take, I appreciate this. I can’t reasonably expect everybody to learn about video editing, but it can significantly improve the quality of the lectures.  
-74: minimum 3 weeks before announcing a exam not just 8 days (Intro to Neuro, WS19/20)  
-75: Online classes work perfectly for lectures if they are recorded. It happens that there are a lot of lags to people with bad connection, especially in lectures with lots of people. So being available to watch the lecture later is a must in my opinion  
-89: One professor introduced question and answer sessions every 4th week or so which made it possible to ask questions about the lectures we have heard so far. I really liked this idea to balance out the missing interaction we normally have between students and professor (i.e. if the lecture is not held online).  
-108: if the lecture isnt live online, I would really recommend theme-structured videos. Makes it easier to listen and structure your study.  
-116: PLEASE DON’T try to just cram physical lectures/seminars into a digital format. As stated before, there are great ways to embrace digital formats - which of course have shortcomings of their own - but please understand that it’s a different beast than regular/classical formats and thus have to be implemented differently.  
-141: Especially with lectures where a lot a videos are uploaded, I find that the time requirement to work through them is a lot higher than with normal lectures. I feel like when studying from home everything takes longer than it usually does and this is not really considered 144: For lectures: I appreciate the audio files put into the presentations, I would suggest to meet via BBB every two weeks to give room for questions regarding the content (like QQ but more often and periodic)  
+16: minimum 3 weeks before announcing a exam not just 8 days (Intro to Neuro, WS19/20)  
+17: Online classes work perfectly for lectures if they are recorded. It happens that there are a lot of lags to people with bad connection, especially in lectures with lots of people. So being available to watch the lecture later is a must in my opinion  
+18: One professor introduced question and answer sessions every 4th week or so which made it possible to ask questions about the lectures we have heard so far. I really liked this idea to balance out the missing interaction we normally have between students and professor (i.e. if the lecture is not held online).  
+19: if the lecture isnt live online, I would really recommend theme-structured videos. Makes it easier to listen and structure your study.  
+20: PLEASE DON’T try to just cram physical lectures/seminars into a digital format. As stated before, there are great ways to embrace digital formats - which of course have shortcomings of their own - but please understand that it’s a different beast than regular/classical formats and thus have to be implemented differently.  
+21: Especially with lectures where a lot a videos are uploaded, I find that the time requirement to work through them is a lot higher than with normal lectures. I feel like when studying from home everything takes longer than it usually does and this is not really considered 144: For lectures: I appreciate the audio files put into the presentations, I would suggest to meet via BBB every two weeks to give room for questions regarding the content (like QQ but more often and periodic)  
 
 #### Recap - Lectures  
 
-Transfer lectures 1-to-1 as online material (e.g. talking while showing slides) alone does not support the student’s learning success (28, 42, 116)  
-Offering additional Question and Answer Sessions helps the students to understand the material (144, 72, 89)  
-Videos and material should always be uploaded at the same time to support the students in structuring their week (29, 72, 100)  
-Having shorter videos (20 min) mixed with interactive parts (e.g questions, short independent research tasks, VIPs) would be preferred (42, 116)  
-Having live lectures is bad, bad internet connections (either because of number of attendees or technical issues at home) make recordings necessary (116, 75)  
-More live streams are appreciated (96)  
-Tutorials are sometimes missing or not offered at all (2, 27)  
-Spoken text accompanying the slides can be scripted (if it improves content/structure), editing (making breaks, selecting the best take) is highly appreciated (60)  
-Structuring the videos according to their theme helps students to listen to them and structure their studies accordingly (108)  
-Videos are better than “real” sessions because one can pause and rewind to deepen the understanding (54)  
-Following and understanding an online lecture takes longer than the mere video length (141)  
-Giving some hints where students can find reliable extra material on specific topics is appreciated (28)  
-Quality of the videos is bad (72)  
-Quality of most lectures exceed expectations (100)  
+Transfer lectures 1-to-1 as online material (e.g. talking while showing slides) alone does not support the student’s learning success (3 students)  
+Offering additional Question and Answer Sessions helps the students to understand the material (3 students)    
+Videos and material should always be uploaded at the same time to support the students in structuring their week (3 students)   
+Having shorter videos (20 min) mixed with interactive parts (e.g questions, short independent research tasks, VIPs) would be preferred (2 students)  
+Having live lectures is bad, bad internet connections (either because of number of attendees or technical issues at home) make recordings necessary (2 students)   
+More live streams are appreciated (1 student)   
+Tutorials are sometimes missing or not offered at all (2 students)  
+Spoken text accompanying the slides can be scripted (if it improves content/structure), editing (making breaks, selecting the best take) is highly appreciated (1 student)  
+Structuring the videos according to their theme helps students to listen to them and structure their studies accordingly (1 student)  
+Videos are better than “real” sessions because one can pause and rewind to deepen the understanding (1 student)  
+Following and understanding an online lecture takes longer than the mere video length (1 student)  
+Giving some hints where students can find reliable extra material on specific topics is appreciated (1 student)  
+Quality of the videos is bad (1 student)  
+Quality of most lectures exceed expectations (1 student)  
 Communication in regard to exams (also of last semester) should be improved and exams should
-be announced at least 3 weeks in advance (74)  
-Testate work well (141)  
+be announced at least 3 weeks in advance (1 student)  
+Testate work well (1 student)  
 
 ### Seminars
 
-26: [...] from my experience most students dont want to turn on their microphone, so no one is speaking except the tutor. people try to explain their question in the chats, which usually leads to misunderstandings.. It’s pretty exhausting.  
-61: In Seminars the online format doesn’t really invite discussion that much especially because I for example don’t have a working mic or camera on my laptop so I can’t speak in discussions and will have to use my phone to record myself during presentations.  
-88: I feel that when a seminar just consists of a student presentation each week (not even a discussion taking is taking place), I do not learn something. Especially when the lecturer neither provides additional content nor criticism on the presentation.  
-89: Seminars are not really what they are supposed to be (at least the one I am taking at the moment) since it is mostly the professor or a student that is giving a presentation talking, but not really an active discussion between students and professor.  
-128: In my opinion the most important part of a seminar is the open discussion between participants and lecturers. This is not really possible im the bbb-seminars that i have seen so far.  
-129: [...] I participated in a small seminar and as soon as verbal exchange start in a Zoom-session, it starts to not work smoothly. People definitely interact more dynamically in a real world setting + technological issues (that still happen) make progressing at good speeds hard.  
-26: make it obligatory to speak up? one probably cant do that.  
-54: Sadly not. I find it hard to discuss in a chat as one can not see the faces of the interlocutor   
-87: Personal discussions and interactions are really missing, and small group assignments might be nice to compensate this.  
-88: Giving students feedback about their planned presentation beforehand and afterwards would be valuable.  
-105: Everything with more than 30 students as an online live session (tutorials, seminars,..) get’s a little chaotic usually, maybe have more smaller seminars? or more tutors?  
-144: [...] For Seminars: it would be nice to use the techniqual advantages even more - icluding videos, breakout rooms and other to higher the students engagement  
-145: Create smaller seminars, splitting them into subgroups. Tutors should talk up more frequently and make sure no question is missed.  
+1: [...] from my experience most students dont want to turn on their microphone, so no one is speaking except the tutor. people try to explain their question in the chats, which usually leads to misunderstandings.. It’s pretty exhausting.  
+2: In Seminars the online format doesn’t really invite discussion that much especially because I for example don’t have a working mic or camera on my laptop so I can’t speak in discussions and will have to use my phone to record myself during presentations.  
+3: I feel that when a seminar just consists of a student presentation each week (not even a discussion taking is taking place), I do not learn something. Especially when the lecturer neither provides additional content nor criticism on the presentation.  
+4: Seminars are not really what they are supposed to be (at least the one I am taking at the moment) since it is mostly the professor or a student that is giving a presentation talking, but not really an active discussion between students and professor.  
+5: In my opinion the most important part of a seminar is the open discussion between participants and lecturers. This is not really possible im the bbb-seminars that i have seen so far.  
+6: [...] I participated in a small seminar and as soon as verbal exchange start in a Zoom-session, it starts to not work smoothly. People definitely interact more dynamically in a real world setting + technological issues (that still happen) make progressing at good speeds hard.  
+7: make it obligatory to speak up? one probably cant do that.  
+8: Sadly not. I find it hard to discuss in a chat as one can not see the faces of the interlocutor   
+9: Personal discussions and interactions are really missing, and small group assignments might be nice to compensate this.  
+10: Giving students feedback about their planned presentation beforehand and afterwards would be valuable.  
+11: Everything with more than 30 students as an online live session (tutorials, seminars,..) get’s a little chaotic usually, maybe have more smaller seminars? or more tutors?  
+12: [...] For Seminars: it would be nice to use the techniqual advantages even more - icluding videos, breakout rooms and other to higher the students engagement  
+13: Create smaller seminars, splitting them into subgroups. Tutors should talk up more frequently and make sure no question is missed.  
 
 #### Recap - Seminars
 
 Discussions are exacerbated in online seminars (either because of the setting in general or technical
-issues) (26, 61, 87, 88, 89, 54, 129, 128).  
-This is worsen in large seminars, hence, smaller groups are appreciated (145, 105). Alternatively small group assignments could be nice to compensate this (87).   Or make it obligatory to speak up in an discussion (26).  
-Using more of the technical possibilities (e.g. videos, breakout rooms, other means to engage the students) would be appreciated (144).  
-Receiving feedback before and after a planned presentation would be valuable (88)  
+issues) (8 students).  
+This is worsen in large seminars, hence, smaller groups are appreciated (2 students). Alternatively small group assignments could be nice to compensate this (1 student).   Or make it obligatory to speak up in an discussion (1 student).  
+Using more of the technical possibilities (e.g. videos, breakout rooms, other means to engage the students) would be appreciated (1 student).  
+Receiving feedback before and after a planned presentation would be valuable (1 student)  
 
 ### General Lectures/Seminars
 
-37: It is incredibly hard to reach some professors, they just do not reply to emails or calls...  
-71: Sometimes perhaps better prepare lecturers and tell them what (new) resources they can use.  
-88: using the possibilities of the online tools, like little quizzes during a session to make it interactive for the students. [...]  
-96: Teach the lecturers a more extensive use of Stud.IP for setting up Lectures/Schedules/Resoruces in an organised way (E.g Courseware). Its all there, it seems like most just don’t know.  
-112: Please more interactive use of the courseware (as e.g. Tobias Thelen does);  
-125: [...] So, what I want to say is that adding more work load to the course (in the middle of the semester) in times of online university is something that definitely does not work well.  
-152: better prepare professors/lecturers for situations like these  
+1: It is incredibly hard to reach some professors, they just do not reply to emails or calls...  
+2: Sometimes perhaps better prepare lecturers and tell them what (new) resources they can use.  
+3: using the possibilities of the online tools, like little quizzes during a session to make it interactive for the students. [...]  
+4: Teach the lecturers a more extensive use of Stud.IP for setting up Lectures/Schedules/Resoruces in an organised way (E.g Courseware). Its all there, it seems like most just don’t know.  
+5: Please more interactive use of the courseware (as e.g. Tobias Thelen does);  
+6: [...] So, what I want to say is that adding more work load to the course (in the middle of the semester) in times of online university is something that definitely does not work well.  
+7: better prepare professors/lecturers for situations like these  
 
 #### Recap - General Lectures/Seminars  
 
-Prepare the teachers to make use of the resources to create interactive and organized material (e.g. Courseware, quizzes) (71, 88, 96, 112, 152).  
-It is hard to reach some professors (37).    
-Changing the workload during the semester is not appreciated as it deranges the planning (125)    
+Prepare the teachers to make use of the resources to create interactive and organized material (e.g. Courseware, quizzes) (5 students).  
+It is hard to reach some professors (1 student).    
+Changing the workload during the semester is not appreciated as it deranges the planning (1 student)    
 
 ### BigBlueBottom and Stud.Ip
 
-63: The stud.ip courseware (if used well) helps to follow the red thread of a course  
-98: BBB has problems in one of my courses, in otheres it works fine  
-43: BBB has sometimes problems but zoom always worked also for large groups. So would be nice if BBB could also improve the quality.  
-136: Add a function to raise a hand in BBB  
-148: We definitely need a better online teaching/learning platform than studIP. It has a lot of limitations that hamper the whole process of effectively providing and presenting study material to the students.  
+1: The stud.ip courseware (if used well) helps to follow the red thread of a course  
+2: BBB has problems in one of my courses, in otheres it works fine  
+3: BBB has sometimes problems but zoom always worked also for large groups. So would be nice if BBB could also improve the quality.  
+4: Add a function to raise a hand in BBB  
+5: We definitely need a better online teaching/learning platform than studIP. It has a lot of limitations that hamper the whole process of effectively providing and presenting study material to the students.  
 
 #### Recap - BBB and Stud.Ip
 
-BBB occasionally has issues to work reliably (98,43).  
-Adding a function to raise a hand in BBB would be appreciated (136).  
-If Stud.Ip courseware is used well, it helps the students to follow a course (63).  
-There is a need for a better teaching/learning platform than Stud.Ip as it has many limitations (148).  
+BBB occasionally has issues to work reliably (2 students).  
+Adding a function to raise a hand in BBB would be appreciated (1 student).  
+If Stud.Ip courseware is used well, it helps the students to follow a course (1 student).  
+There is a need for a better teaching/learning platform than Stud.Ip as it has many limitations (1 student).  
 
 ### Examination Office
 
-9: The examination office is particularly slow to respond to emails and other requests like registration of thesis, etc.  
-145: Nowadays it is very difficult to reach the examination office.  
-149: The Pr¨ufungsamt is doing a great job!  
+1: The examination office is particularly slow to respond to emails and other requests like registration of thesis, etc.  
+2: Nowadays it is very difficult to reach the examination office.  
+3: The Pr¨fungsamt is doing a great job!  
 
 ####  Recap - Examination Office
 
-The examination office is slow to respond or difficult to reach (9,145) and the examination office is doing a great job (149)  
+The examination office is slow to respond or difficult to reach (2 students) and the examination office is doing a great job (1 student)  
 
 ### Technical Issues
 
-77: The well working parts depend on a good internet connection;)  
-139: In general online lectures should work really well because they are often not that interactive and could easily be recorded but unfortunately in my experience the recordings often lack quality.  
-145: [...] Without access to university printers, printing becomes a tour de force.  
-152: some professors/lecturers do not have the technical lnow-how to guarantee for example good audio quality  
-27: Its difficult doing paper work, without having the possibility to use a printer. (As it is not allowed in the library)  
-43: [...] And if every lecturer let’s us download the content since sometimes it’s not possible for me to watch them online because of my Internet connection.  
-112: [...] better microphones for the lecturers (quality is often bad)  
+1: The well working parts depend on a good internet connection;)  
+2: In general online lectures should work really well because they are often not that interactive and could easily be recorded but unfortunately in my experience the recordings often lack quality.  
+3: [...] Without access to university printers, printing becomes a tour de force.  
+4: some professors/lecturers do not have the technical lnow-how to guarantee for example good audio quality  
+5: Its difficult doing paper work, without having the possibility to use a printer. (As it is not allowed in the library)  
+6: [...] And if every lecturer let’s us download the content since sometimes it’s not possible for me to watch them online because of my Internet connection.  
+7: [...] better microphones for the lecturers (quality is often bad)  
 
 #### Recap Technical Issues
 
-The recordings have suboptimal audio quality (152, 112, 139).  
-The students internet connection is hindering them to watch the (live) lectures (77,43).  
-The missing access to printers is problematic (27,145).  
+The recordings have suboptimal audio quality (2 students).  
+The students internet connection is hindering them to watch the (live) lectures (2 students).  
+The missing access to printers is problematic (2 students).  
 
 ### Meta Critique
 
-31: It is all very relativ.. The lectures work well compared to what? How it was before; then it is bad. How it works compared to other universities or schools: good enough. I think the problem is that this semester still counts as a normal semester (as far as I know), which is highly unfair. I would consider all of the classes much better if it would be a choice to take them.  
-113: Yes, I love the fact that evaluations are getting more project-based and getting further away from tests. Tests suck! They are stressful and not that accurately representing ones’ understanding and learning of the topics. I’m so enjoying this online phase.  
-38: In general Lecturers / anyone in teaching should be aware of how problematic the situation is and be careful to be *extremely* forgiving with regards to deadlines, examination strategies, etc. There many issues students have to tackle right now which might render them unable to actively take part in studying, which are not at all their fault - help these students to still be able to finish their courses.  
+1: It is all very relativ.. The lectures work well compared to what? How it was before; then it is bad. How it works compared to other universities or schools: good enough. I think the problem is that this semester still counts as a normal semester (as far as I know), which is highly unfair. I would consider all of the classes much better if it would be a choice to take them.  
+2: Yes, I love the fact that evaluations are getting more project-based and getting further away from tests. Tests suck! They are stressful and not that accurately representing ones’ understanding and learning of the topics. I’m so enjoying this online phase.  
+3: In general Lecturers / anyone in teaching should be aware of how problematic the situation is and be careful to be *extremely* forgiving with regards to deadlines, examination strategies, etc. There many issues students have to tackle right now which might render them unable to actively take part in studying, which are not at all their fault - help these students to still be able to finish their courses.  
 
 ### Homework/Projects/Presentation/General Study Organization
 
-40: Probably the biggest problem I have this semester is homework and projects. Working together just works so much better when you sit next to each other and can see what the other person is doing. Screensharing crowds your own screen, pointing at stuff simply does not work. Also I see no alternative for this. Just sucks.  
-51: I really like online presentations since one does not have to stand in front of the whole class but rather can sit at home while giving the presentation. That might be more comfortable for shy persons.  
-90: Regarding presentations it is much harder to concentrate if you don’t see the presenter and also as a presenter to give a good presentation without being able to read the audience. It can be hard to find study/presentation groups if you take part in a course without knowing anyone and not being able to talk to someone in person.  
-100: [..]Another thing that does not work for me online are group presentations. [...]  
-147: Organizationally it works really well, but it is really exhausting both on body and mind to have everything going on online.  
-144: [...] For homework: be more dynamic and flexible for the amount of homework, instead of having one big performance goal, use a learning goal. Studying by myself makes it easier to learn without a heavy time pressure, but I need more time for solving homeworks and preparing the material from the lectures. It is quite uncomfortable to watch at a screen for more than 6 hours a day  
+1: Probably the biggest problem I have this semester is homework and projects. Working together just works so much better when you sit next to each other and can see what the other person is doing. Screensharing crowds your own screen, pointing at stuff simply does not work. Also I see no alternative for this. Just sucks.  
+2: I really like online presentations since one does not have to stand in front of the whole class but rather can sit at home while giving the presentation. That might be more comfortable for shy persons.  
+3: Regarding presentations it is much harder to concentrate if you don’t see the presenter and also as a presenter to give a good presentation without being able to read the audience. It can be hard to find study/presentation groups if you take part in a course without knowing anyone and not being able to talk to someone in person.  
+4: [..]Another thing that does not work for me online are group presentations. [...]  
+5: Organizationally it works really well, but it is really exhausting both on body and mind to have everything going on online.  
+6: [...] For homework: be more dynamic and flexible for the amount of homework, instead of having one big performance goal, use a learning goal. Studying by myself makes it easier to learn without a heavy time pressure, but I need more time for solving homeworks and preparing the material from the lectures. It is quite uncomfortable to watch at a screen for more than 6 hours a day  
 
 ### Social Aspects
 
-121: i cannot collaborate, discuss or group study with fellows. i cannot discuss my research ideas with a process if i happen to pass them by in the corridor or i see their office door open.  
-148: Studying is a lot more fun and a lot more productive and creative if you have spontaneous and regular contact to other people. This is a fundamental part of research and studying that is missing totally in an online university.  
+1: i cannot collaborate, discuss or group study with fellows. i cannot discuss my research ideas with a process if i happen to pass them by in the corridor or i see their office door open.  
+2: Studying is a lot more fun and a lot more productive and creative if you have spontaneous and regular contact to other people. This is a fundamental part of research and studying that is missing totally in an online university.  
 
 #### Recap - Social Aspects
 
-Studying, discussing, generally research is missing a fundamental part when there is no regular contact with other people (121, 148).
+Studying, discussing, generally research is missing a fundamental part when there is no regular contact with other people (2 students).
 
 
 # 3. Problems encountered during the "digital" semester
 
 ```{r, echo = F}
 # read in the data
-d <- read_csv('data-raw.csv')
+d <- read_csv('rand.csv')
 # get the relevant part
 d_problems <- d %>% select(`How problematic was the summer term 2020 for you in general?`:`To cope with any arising issues, which of the following services have you used?`)
 # use more tractable col names
@@ -781,7 +779,7 @@ In this section, we asked about how students organize their free time and collab
 
 ```{r}
 # filepath = "C:/Users/Sarah/Documents/CogSci-SOS/data-raw.csv"
-social = read_csv("data-raw.csv") %>% select(35:37)
+social = read_csv("rand.csv") %>% select(35:38)
 ```
 
 
@@ -853,7 +851,7 @@ social %>%
 
 ```{r}
 # read in the data
-d <- read_csv('data-raw.csv')
+d <- read_csv('rand.csv')
 # get the relevant part
 d_problems <- d %>% select(`How problematic was the summer term 2020 for you in general?`:`To cope with any arising issues, which of the following services have you used?`)
 # use more tractable col names
@@ -897,7 +895,7 @@ plt.show()
 # 7. Final questions
 
 ```{r}
-final <- read_csv('data-raw.csv') %>% select(53:56) %>% 
+final <- read_csv('rand.csv') %>% select(53:57) %>% 
   mutate(
     program = `What program are you enrolled in?`,
     semester = `What semester are you in?`,
